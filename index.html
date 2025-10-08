@@ -8,9 +8,6 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style>
-  /* ===========================
-     THEME & LAYOUT (light + blue)
-     =========================== */
   :root{
     --page-bg: #f3f6fb;
     --card-bg: #ffffff;
@@ -25,7 +22,7 @@
 
     /* cursor sizes */
     --cursor-dot: 10px;        /* core dot diameter */
-    --cursor-halo: 34px;       /* outer halo diameter */
+    --cursor-halo: 36px;       /* outer halo diameter */
     --cursor-glow: 18px;       /* blur radius of halo */
   }
 
@@ -45,7 +42,7 @@
 
   .container{max-width:980px;margin:0 auto}
 
-  /* ===== Full-width pill navbar (centered) ===== */
+  /* NAV */
   .pill-wrap { position:fixed; left:0; right:0; top:18px; z-index:120; display:flex; justify-content:center; pointer-events:none; }
   .pill-nav{
     pointer-events:auto;
@@ -59,26 +56,17 @@
     -webkit-backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid var(--glass-border);
   }
-
   .pill-left{display:flex;align-items:center;gap:12px}
   .avatar{ width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
     display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(30,40,60,0.06) }
   .brand-name{font-size:14px;font-weight:700;color:var(--text)}
-
   .nav-links{display:flex;gap:8px;align-items:center}
-  .pill-nav a{
-    color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:999px; font-weight:600; font-size:14px; transition: all .14s ease;
-  }
+  .pill-nav a{ color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:999px; font-weight:600; font-size:14px; transition: all .14s ease; }
   .pill-nav a:hover{ color:var(--accent-2); transform:translateY(-2px); }
-  .pill-nav a.active{
-    background: linear-gradient(90deg, rgba(37,99,235,0.09), rgba(30,64,175,0.06));
-    color: var(--accent-1);
-    box-shadow: 0 8px 30px var(--glow);
-  }
+  .pill-nav a.active{ background: linear-gradient(90deg, rgba(37,99,235,0.09), rgba(30,64,175,0.06)); color: var(--accent-1); box-shadow: 0 8px 30px var(--glow); }
 
-  /* ===== Card & page layout ===== */
+  /* PAGE LAYOUT */
   .card { margin-top:38px; background: var(--card-bg); border-radius: var(--radius); padding:28px; border: 1px solid rgba(15,23,42,0.04); box-shadow: 0 10px 30px rgba(15,23,42,0.04); }
-
   header.main{display:flex;gap:18px;align-items:center}
   .hero{flex:1}
   .hero h1{margin:0;font-size:28px;letter-spacing:-0.3px}
@@ -95,47 +83,45 @@
   .muted{color:var(--muted);font-size:13px;margin-top:6px}
   .role{font-weight:700;color:var(--text)}
   .meta{color:var(--muted);font-size:13px;margin-top:4px}
-
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .chip{ background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04)); padding:6px 10px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; border:1px solid rgba(37,99,235,0.06) }
-
   footer{ margin-top:28px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap }
-
-  /* responsive */
   @media (max-width:980px){ .container{padding:0 12px} }
-  @media (max-width:820px){
-    .grid{grid-template-columns:1fr}
-    .pill-nav{width:calc(100% - 28px); padding:10px}
-    header.main{flex-direction:column;align-items:flex-start;gap:12px}
-  }
+  @media (max-width:820px){ .grid{grid-template-columns:1fr} .pill-nav{width:calc(100% - 28px); padding:10px} header.main{flex-direction:column;align-items:flex-start;gap:12px} }
 
   /* subtle motion */
   .float { animation: floaty 6s ease-in-out infinite; }
   @keyframes floaty { 0%{ transform: translateY(0px)} 50%{ transform: translateY(-6px)} 100%{ transform: translateY(0px)} }
 
-  /* forms */
   form input, form textarea{ width:100%; padding:12px; border-radius:10px; border:1px solid rgba(15,23,42,0.04); background:#fbfdff; color:var(--text); margin-top:8px }
   form button{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); border:none; color:white; padding:10px 12px; border-radius:10px; font-weight:700; margin-top:10px }
-
   a.small-link{ color:var(--accent-1); text-decoration:none; font-weight:700 }
 
-  /* ===========================================
-     CUSTOM CURSOR (minimal blue glowing dot)
-     - Only enabled for fine-pointer devices
-     - Respects prefers-reduced-motion
-     =========================================== */
+  /* ======================================================================
+     CUSTOM CURSOR (blue laser dot)
+     - Activation & visibility controlled via JS toggling body.has-custom-cursor
+     - Native cursor preserved for inputs/buttons and on touch devices
+     ====================================================================== */
 
   /* Hide custom cursor elements by default */
-  .custom-cursor { display:none; pointer-events:none; position:fixed; z-index:99999; mix-blend-mode:normal; }
+  .custom-cursor { display:none; pointer-events:none; position:fixed; z-index:99999; mix-blend-mode:normal; opacity:0; transition:opacity .2s linear; }
+
+  /* When active, show it */
+  body.has-custom-cursor .custom-cursor { display:block; opacity:1; }
+
+  /* also hide native cursor when custom active, except on form elements */
+  body.has-custom-cursor { cursor: none; }
+  input, textarea, select, button, a { cursor: auto !important; }
 
   /* Dot (inner) */
   .cursor-dot {
     width: var(--cursor-dot); height: var(--cursor-dot);
     border-radius:50%;
     background: var(--accent-1);
-    box-shadow: 0 0 6px rgba(37,99,235,0.9);
+    box-shadow: 0 0 6px rgba(37,99,235,0.95);
     transform: translate(-50%, -50%) scale(1);
     will-change: transform, opacity;
+    position:absolute; left:0; top:0;
   }
 
   /* Halo (outer soft glow) */
@@ -146,32 +132,21 @@
     filter: blur(var(--cursor-glow));
     transform: translate(-50%, -50%) scale(1);
     will-change: transform, opacity;
+    position:absolute; left:0; top:0;
+    opacity:0.95;
   }
 
-  /* When hovering interactive elements, make dot smaller and halo subtler */
-  .cursor--hover .cursor-dot { transform: translate(-50%, -50%) scale(0.78); box-shadow: 0 0 8px rgba(37,99,235,0.95); }
-  .cursor--hover .cursor-halo { opacity:0.85; transform: translate(-50%, -50%) scale(1.02); }
-
-  /* restore native cursor for inputs/buttons so users can text select */
-  input, textarea, select, button, a { cursor: auto !important; }
-
-  /* Disable custom cursor on touch/coarse pointer devices via media query */
-  @media (hover: hover) and (pointer: fine) {
-    /* show the cursor elements on capable devices */
-    .custom-cursor { display:block; }
-    /* hide native cursor when not interacting with text fields (global hide for fine pointers) */
-    body:not(.cursor-disabled) { cursor: none; }
-  }
+  /* Hover state: subtle scale */
+  body.has-custom-cursor .cursor--hover .cursor-dot { transform: translate(-50%, -50%) scale(0.78); box-shadow: 0 0 8px rgba(37,99,235,0.95); }
+  body.has-custom-cursor .cursor--hover .cursor-halo { opacity:0.9; transform: translate(-50%, -50%) scale(1.02); }
 
   /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .cursor-dot, .cursor-halo { transition: none !important; animation: none !important; }
   }
-
 </style>
 </head>
 <body>
-  <!-- NAV -->
   <div class="pill-wrap">
     <nav class="pill-nav float" aria-label="Main Navigation">
       <div class="pill-left">
@@ -296,16 +271,14 @@
     </main>
   </div>
 
-  <!-- Custom cursor elements (kept near end for z-index) -->
+  <!-- Custom cursor elements -->
   <div class="custom-cursor" id="customCursor" aria-hidden="true">
     <div class="cursor-halo" id="cursorHalo"></div>
     <div class="cursor-dot" id="cursorDot"></div>
   </div>
 
 <script>
-/* =========================
-   Robust smooth scroll fix
-   ========================= */
+/* Robust smooth scroll fix (unchanged) */
 (function(){
   const nav = document.querySelector('.pill-nav');
   const links = document.querySelectorAll('.pill-nav a.nav-link, .pill-nav .nav-links a');
@@ -346,102 +319,99 @@
   window.addEventListener('load', onScroll);
 })();
 
-/* =========================
-   Custom cursor implementation
-   - Only enable on devices that support fine pointer + hover
-   - Respects prefers-reduced-motion
-   ========================= */
+/* Custom cursor: JS decides whether to enable it and toggles body.has-custom-cursor
+   This avoids race conditions between CSS media queries and JS. */
 (function(){
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
   if (!finePointer) {
-    // disable custom cursor on touch/coarse devices
-    document.body.classList.add('cursor-disabled');
+    // Do not enable custom cursor on touch/coarse devices.
+    document.body.classList.remove('has-custom-cursor');
     return;
   }
 
-  const cursor = document.getElementById('customCursor');
+  // enable cursor by adding class to body
+  document.body.classList.add('has-custom-cursor');
+
+  const cursorEl = document.getElementById('customCursor');
   const dot = document.getElementById('cursorDot');
   const halo = document.getElementById('cursorHalo');
 
-  // ease params
+  // initial placement at center so it doesn't flash elsewhere
   let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
   let dotX = mouseX, dotY = mouseY;
   let haloX = mouseX, haloY = mouseY;
-  const dotEase = prefersReduced ? 1 : 0.28;   // lower => faster follow; smaller is snappier
-  const haloEase = prefersReduced ? 1 : 0.12;  // halo lags more
 
-  // Show initial cursor
-  cursor.style.opacity = 1;
+  // easing (smaller => snappier), respects reduced motion
+  const dotEase = prefersReduced ? 1 : 0.28;
+  const haloEase = prefersReduced ? 1 : 0.12;
 
-  // Keep native cursor visible when over form controls: handled via CSS `cursor: auto` on inputs
-  // Track hover state over interactive elements
-  let isHoveringInteractive = false;
-  function checkInteractive(el) {
-    return el && (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.closest && el.closest('a,button,input,textarea,select'));
+  // ensure visible
+  cursorEl.style.opacity = 1;
+  dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%,-50%)`;
+  halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%,-50%)`;
+
+  // helper to detect interactive elements
+  function isInteractive(el) {
+    if (!el) return false;
+    const tag = el.tagName;
+    if (tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+    if (el.closest && el.closest('a,button,input,textarea,select')) return true;
+    return false;
   }
 
-  // pointermove updates target coords
+  let hovering = false;
   window.addEventListener('pointermove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // set small scale-up when hovering interactive elements
-    const hovered = checkInteractive(e.target);
-    if (hovered !== isHoveringInteractive) {
-      isHoveringInteractive = hovered;
-      if (isHoveringInteractive) cursor.classList.add('cursor--hover');
-      else cursor.classList.remove('cursor--hover');
+    const newHover = isInteractive(e.target);
+    if (newHover !== hovering) {
+      hovering = newHover;
+      if (hovering) cursorEl.classList.add('cursor--hover');
+      else cursorEl.classList.remove('cursor--hover');
     }
   }, {passive:true});
 
-  // hide cursor when pointer leaves window
-  window.addEventListener('pointerleave', () => {
-    cursor.style.opacity = 0;
-  });
-  window.addEventListener('pointerenter', () => {
-    cursor.style.opacity = 1;
-  });
+  window.addEventListener('pointerleave', () => { cursorEl.style.opacity = 0; });
+  window.addEventListener('pointerenter', () => { cursorEl.style.opacity = 1; });
 
-  // animation loop: lerp positions
-  function raf() {
-    // simple linear interpolation
-    dotX += (mouseX - dotX) * (1 - Math.pow(1 - dotEase, 1)); // eased step
-    dotY += (mouseY - dotY) * (1 - Math.pow(1 - dotEase, 1));
-    haloX += (mouseX - haloX) * (1 - Math.pow(1 - haloEase, 1));
-    haloY += (mouseY - haloY) * (1 - Math.pow(1 - haloEase, 1));
+  // animation loop (lerp)
+  let running = true;
+  function lerp(a,b,t){ return a + (b-a) * t; }
 
-    // apply transforms
-    dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
-    halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%, -50%)`;
+  function frame(){
+    // update positions
+    dotX = lerp(dotX, mouseX, 1 - Math.pow(1 - dotEase, 1));
+    dotY = lerp(dotY, mouseY, 1 - Math.pow(1 - dotEase, 1));
+    haloX = lerp(haloX, mouseX, 1 - Math.pow(1 - haloEase, 1));
+    haloY = lerp(haloY, mouseY, 1 - Math.pow(1 - haloEase, 1));
 
-    requestAnimationFrame(raf);
+    dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%,-50%)`;
+    halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%,-50%)`;
+
+    if (running && !prefersReduced) requestAnimationFrame(frame);
   }
-  // set initial positions
-  const startX = window.innerWidth/2, startY = window.innerHeight/2;
-  dot.style.transform = `translate3d(${startX}px, ${startY}px, 0) translate(-50%, -50%)`;
-  halo.style.transform = `translate3d(${startX}px, ${startY}px, 0) translate(-50%, -50%)`;
 
-  // Kick off
-  if (!prefersReduced) raf();
+  if (!prefersReduced) requestAnimationFrame(frame);
 
-  // Safety: if window resizes, reposition
+  // keep positions correct on resize
   window.addEventListener('resize', () => {
     mouseX = window.innerWidth/2; mouseY = window.innerHeight/2;
     dotX = mouseX; dotY = mouseY; haloX = mouseX; haloY = mouseY;
   });
 
-  // Make sure inputs keep native cursor — ensure focusable elements behave normally
+  // ensure native cursor visible on inputs etc
   document.querySelectorAll('input, textarea, select, button, a').forEach(el=>{
-    el.addEventListener('mouseenter', ()=> { cursor.classList.add('cursor--hover'); });
-    el.addEventListener('mouseleave', ()=> { cursor.classList.remove('cursor--hover'); });
+    el.addEventListener('mouseenter', ()=> { cursorEl.classList.add('cursor--hover'); });
+    el.addEventListener('mouseleave', ()=> { cursorEl.classList.remove('cursor--hover'); });
   });
-})();
-</script>
 
-<script>
-  // set year in footer
-  document.getElementById('year').innerText = new Date().getFullYear();
+})(); // end cursor init
+
+// set footer year
+document.getElementById('year').innerText = new Date().getFullYear();
 </script>
 </body>
 </html>
