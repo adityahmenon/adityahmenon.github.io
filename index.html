@@ -3,10 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>I solve problems</title>
-<meta name="description" content="Aditya Menon — I solve problems Contact: menonaditya872@gmail.com">
+<title>Aditya Menon — Growth / Product / Data</title>
+<meta name="description" content="Aditya Menon — Growth engineer who builds product funnels that scale. Contact: menonaditya872@gmail.com">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
 <style>
+  /* ===========================
+     THEME & LAYOUT (light + blue)
+     =========================== */
   :root{
     --page-bg: #f3f6fb;
     --card-bg: #ffffff;
@@ -14,16 +18,21 @@
     --text: #0b1220;
     --accent-1: #2563eb;
     --accent-2: #1e40af;
-    --glow: rgba(37,99,235,0.12);
+    --glow: rgba(37,99,235,0.16);
     --pill-shadow: 0 8px 30px rgba(15,23,42,0.08);
     --glass-border: rgba(15,23,42,0.04);
     --radius: 14px;
+
+    /* cursor sizes */
+    --cursor-dot: 10px;        /* core dot diameter */
+    --cursor-halo: 34px;       /* outer halo diameter */
+    --cursor-glow: 18px;       /* blur radius of halo */
   }
 
   *{box-sizing:border-box}
   html,body{height:100%}
   html { scroll-behavior: smooth; }
-  section, main { scroll-margin-top: 96px; }
+  section, main { scroll-margin-top: 96px; } /* offset for fixed nav */
 
   body{
     margin:0;
@@ -31,33 +40,20 @@
     color:var(--text);
     background: linear-gradient(180deg,var(--page-bg), #eef4fb 60%);
     -webkit-font-smoothing:antialiased;
-    padding:76px 18px 80px;
+    padding:86px 16px 80px;
   }
 
   .container{max-width:980px;margin:0 auto}
 
   /* ===== Full-width pill navbar (centered) ===== */
-  .pill-wrap {
-    position:fixed;
-    left:0;
-    right:0;
-    top:18px;
-    z-index:120;
-    display:flex;
-    justify-content:center;
-    pointer-events:none;
-  }
+  .pill-wrap { position:fixed; left:0; right:0; top:18px; z-index:120; display:flex; justify-content:center; pointer-events:none; }
   .pill-nav{
     pointer-events:auto;
     width:calc(100% - 60px);
-    max-width:1100px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    padding:10px 18px;
-    border-radius:999px;
-    background: rgba(255,255,255,0.85);
+    max-width:1200px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:10px 18px; border-radius:999px;
+    background: rgba(255,255,255,0.92);
     box-shadow: var(--pill-shadow);
     backdrop-filter: blur(8px) saturate(120%);
     -webkit-backdrop-filter: blur(8px) saturate(120%);
@@ -65,21 +61,13 @@
   }
 
   .pill-left{display:flex;align-items:center;gap:12px}
-  .avatar{
-    width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-    display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(30,40,60,0.06)
-  }
+  .avatar{ width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(30,40,60,0.06) }
   .brand-name{font-size:14px;font-weight:700;color:var(--text)}
 
   .nav-links{display:flex;gap:8px;align-items:center}
   .pill-nav a{
-    color:var(--muted);
-    text-decoration:none;
-    padding:8px 12px;
-    border-radius:999px;
-    font-weight:600;
-    font-size:14px;
-    transition: all .14s ease;
+    color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:999px; font-weight:600; font-size:14px; transition: all .14s ease;
   }
   .pill-nav a:hover{ color:var(--accent-2); transform:translateY(-2px); }
   .pill-nav a.active{
@@ -89,14 +77,7 @@
   }
 
   /* ===== Card & page layout ===== */
-  .card {
-    margin-top:38px;
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    padding:28px;
-    border: 1px solid rgba(15,23,42,0.04);
-    box-shadow: 0 10px 30px rgba(15,23,42,0.04);
-  }
+  .card { margin-top:38px; background: var(--card-bg); border-radius: var(--radius); padding:28px; border: 1px solid rgba(15,23,42,0.04); box-shadow: 0 10px 30px rgba(15,23,42,0.04); }
 
   header.main{display:flex;gap:18px;align-items:center}
   .hero{flex:1}
@@ -104,48 +85,93 @@
   .lead{margin:8px 0 6px;color:var(--muted)}
   .contact-line{margin:6px 0 14px;color:var(--muted);font-size:14px}
   .cta-row{display:flex;gap:12px;flex-wrap:wrap}
-  .btn{
-    background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
-    color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;box-shadow:0 8px 30px rgba(30,64,175,0.08);border:none;
-  }
-  .ghost{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid rgba(15,23,42,0.04)}
+  .btn{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); color:white; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700; box-shadow:0 8px 30px rgba(30,64,175,0.08); border:none; }
+  .ghost{ color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:10px; border:1px solid rgba(15,23,42,0.04) }
 
   section{margin-top:22px}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  .project, .experience, .edu {
-    padding:14px;border-radius:12px;background: linear-gradient(180deg, rgba(250,252,255,1), rgba(247,249,255,1));
-    border:1px solid rgba(15,23,42,0.03);
-  }
+  .project, .experience, .edu { padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(250,252,255,1), rgba(247,249,255,1)); border:1px solid rgba(15,23,42,0.03); }
   h2.section-title{margin:0 0 10px;font-size:18px}
   .muted{color:var(--muted);font-size:13px;margin-top:6px}
   .role{font-weight:700;color:var(--text)}
   .meta{color:var(--muted);font-size:13px;margin-top:4px}
 
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .chip{background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04));padding:6px 10px;border-radius:999px;font-weight:600;color:var(--accent-2);font-size:13px;border:1px solid rgba(37,99,235,0.06)}
+  .chip{ background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04)); padding:6px 10px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; border:1px solid rgba(37,99,235,0.06) }
 
-  footer{margin-top:28px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  footer{ margin-top:28px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap }
 
+  /* responsive */
+  @media (max-width:980px){ .container{padding:0 12px} }
   @media (max-width:820px){
     .grid{grid-template-columns:1fr}
     .pill-nav{width:calc(100% - 28px); padding:10px}
     header.main{flex-direction:column;align-items:flex-start;gap:12px}
   }
 
+  /* subtle motion */
   .float { animation: floaty 6s ease-in-out infinite; }
-  @keyframes floaty {
-    0%{ transform: translateY(0px)}
-    50%{ transform: translateY(-6px)}
-    100%{ transform: translateY(0px)}
+  @keyframes floaty { 0%{ transform: translateY(0px)} 50%{ transform: translateY(-6px)} 100%{ transform: translateY(0px)} }
+
+  /* forms */
+  form input, form textarea{ width:100%; padding:12px; border-radius:10px; border:1px solid rgba(15,23,42,0.04); background:#fbfdff; color:var(--text); margin-top:8px }
+  form button{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); border:none; color:white; padding:10px 12px; border-radius:10px; font-weight:700; margin-top:10px }
+
+  a.small-link{ color:var(--accent-1); text-decoration:none; font-weight:700 }
+
+  /* ===========================================
+     CUSTOM CURSOR (minimal blue glowing dot)
+     - Only enabled for fine-pointer devices
+     - Respects prefers-reduced-motion
+     =========================================== */
+
+  /* Hide custom cursor elements by default */
+  .custom-cursor { display:none; pointer-events:none; position:fixed; z-index:99999; mix-blend-mode:normal; }
+
+  /* Dot (inner) */
+  .cursor-dot {
+    width: var(--cursor-dot); height: var(--cursor-dot);
+    border-radius:50%;
+    background: var(--accent-1);
+    box-shadow: 0 0 6px rgba(37,99,235,0.9);
+    transform: translate(-50%, -50%) scale(1);
+    will-change: transform, opacity;
   }
 
-  form input, form textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.04);background:#fbfdff;color:var(--text);margin-top:8px}
-  form button{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;color:white;padding:10px 12px;border-radius:10px;font-weight:700;margin-top:10px}
+  /* Halo (outer soft glow) */
+  .cursor-halo {
+    width: var(--cursor-halo); height: var(--cursor-halo);
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(37,99,235,0.06) 30%, rgba(37,99,235,0.02) 60%, transparent 100%);
+    filter: blur(var(--cursor-glow));
+    transform: translate(-50%, -50%) scale(1);
+    will-change: transform, opacity;
+  }
 
-  a.small-link{color:var(--accent-1);text-decoration:none;font-weight:700}
+  /* When hovering interactive elements, make dot smaller and halo subtler */
+  .cursor--hover .cursor-dot { transform: translate(-50%, -50%) scale(0.78); box-shadow: 0 0 8px rgba(37,99,235,0.95); }
+  .cursor--hover .cursor-halo { opacity:0.85; transform: translate(-50%, -50%) scale(1.02); }
+
+  /* restore native cursor for inputs/buttons so users can text select */
+  input, textarea, select, button, a { cursor: auto !important; }
+
+  /* Disable custom cursor on touch/coarse pointer devices via media query */
+  @media (hover: hover) and (pointer: fine) {
+    /* show the cursor elements on capable devices */
+    .custom-cursor { display:block; }
+    /* hide native cursor when not interacting with text fields (global hide for fine pointers) */
+    body:not(.cursor-disabled) { cursor: none; }
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .cursor-dot, .cursor-halo { transition: none !important; animation: none !important; }
+  }
+
 </style>
 </head>
 <body>
+  <!-- NAV -->
   <div class="pill-wrap">
     <nav class="pill-nav float" aria-label="Main Navigation">
       <div class="pill-left">
@@ -270,51 +296,151 @@
     </main>
   </div>
 
+  <!-- Custom cursor elements (kept near end for z-index) -->
+  <div class="custom-cursor" id="customCursor" aria-hidden="true">
+    <div class="cursor-halo" id="cursorHalo"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+  </div>
+
 <script>
-  // Robust smooth scroll fix with navbar offset
-  (function(){
-    const nav = document.querySelector('.pill-nav');
-    const links = document.querySelectorAll('.pill-nav a.nav-link, .pill-nav .nav-links a');
+/* =========================
+   Robust smooth scroll fix
+   ========================= */
+(function(){
+  const nav = document.querySelector('.pill-nav');
+  const links = document.querySelectorAll('.pill-nav a.nav-link, .pill-nav .nav-links a');
 
-    function getNavOffset() {
-      if (!nav) return 96;
-      return nav.offsetHeight + 12;
-    }
+  function getNavOffset() { return nav ? nav.offsetHeight + 12 : 96; }
 
-    function scrollToSelector(selector){
-      const el = document.querySelector(selector);
-      if (!el) return;
-      const navOffset = getNavOffset();
-      const top = el.getBoundingClientRect().top + window.pageYOffset - navOffset;
-      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-    }
+  function scrollToSelector(selector){
+    const el = document.querySelector(selector);
+    if (!el) return;
+    const navOffset = getNavOffset();
+    const top = el.getBoundingClientRect().top + window.pageYOffset - navOffset;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  }
 
-    links.forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        const href = a.getAttribute('href');
-        if (href && href.startsWith('#')) scrollToSelector(href);
-        else window.location = href;
-        document.querySelectorAll('.pill-nav a').forEach(x=>x.classList.remove('active'));
-        a.classList.add('active');
-      });
-    });
-
-    const sections = Array.from(document.querySelectorAll('section, main'));
-    function onScroll() {
-      const navOffset = getNavOffset();
-      const y = window.pageYOffset + navOffset + 4;
-      let current = sections.find(s => (s.offsetTop <= y && (s.offsetTop + s.offsetHeight) > y));
-      if (!current) current = sections[0];
+  links.forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      const href = a.getAttribute('href');
+      if (href && href.startsWith('#')) scrollToSelector(href);
+      else window.location = href;
       document.querySelectorAll('.pill-nav a').forEach(x=>x.classList.remove('active'));
-      const id = current && current.id ? current.id : 'top';
-      const activeLink = document.querySelector('.pill-nav a[href="#' + id + '"]');
-      if (activeLink) activeLink.classList.add('active');
-    }
-    window.addEventListener('scroll', onScroll, {passive:true});
-    window.addEventListener('load', onScroll);
-  })();
+      a.classList.add('active');
+    });
+  });
 
+  const sections = Array.from(document.querySelectorAll('section, main'));
+  function onScroll() {
+    const navOffset = getNavOffset();
+    const y = window.pageYOffset + navOffset + 4;
+    let current = sections.find(s => (s.offsetTop <= y && (s.offsetTop + s.offsetHeight) > y));
+    if (!current) current = sections[0];
+    document.querySelectorAll('.pill-nav a').forEach(x=>x.classList.remove('active'));
+    const id = current && current.id ? current.id : 'top';
+    const activeLink = document.querySelector('.pill-nav a[href="#' + id + '"]');
+    if (activeLink) activeLink.classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('load', onScroll);
+})();
+
+/* =========================
+   Custom cursor implementation
+   - Only enable on devices that support fine pointer + hover
+   - Respects prefers-reduced-motion
+   ========================= */
+(function(){
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!finePointer) {
+    // disable custom cursor on touch/coarse devices
+    document.body.classList.add('cursor-disabled');
+    return;
+  }
+
+  const cursor = document.getElementById('customCursor');
+  const dot = document.getElementById('cursorDot');
+  const halo = document.getElementById('cursorHalo');
+
+  // ease params
+  let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+  let dotX = mouseX, dotY = mouseY;
+  let haloX = mouseX, haloY = mouseY;
+  const dotEase = prefersReduced ? 1 : 0.28;   // lower => faster follow; smaller is snappier
+  const haloEase = prefersReduced ? 1 : 0.12;  // halo lags more
+
+  // Show initial cursor
+  cursor.style.opacity = 1;
+
+  // Keep native cursor visible when over form controls: handled via CSS `cursor: auto` on inputs
+  // Track hover state over interactive elements
+  let isHoveringInteractive = false;
+  function checkInteractive(el) {
+    return el && (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.closest && el.closest('a,button,input,textarea,select'));
+  }
+
+  // pointermove updates target coords
+  window.addEventListener('pointermove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    // set small scale-up when hovering interactive elements
+    const hovered = checkInteractive(e.target);
+    if (hovered !== isHoveringInteractive) {
+      isHoveringInteractive = hovered;
+      if (isHoveringInteractive) cursor.classList.add('cursor--hover');
+      else cursor.classList.remove('cursor--hover');
+    }
+  }, {passive:true});
+
+  // hide cursor when pointer leaves window
+  window.addEventListener('pointerleave', () => {
+    cursor.style.opacity = 0;
+  });
+  window.addEventListener('pointerenter', () => {
+    cursor.style.opacity = 1;
+  });
+
+  // animation loop: lerp positions
+  function raf() {
+    // simple linear interpolation
+    dotX += (mouseX - dotX) * (1 - Math.pow(1 - dotEase, 1)); // eased step
+    dotY += (mouseY - dotY) * (1 - Math.pow(1 - dotEase, 1));
+    haloX += (mouseX - haloX) * (1 - Math.pow(1 - haloEase, 1));
+    haloY += (mouseY - haloY) * (1 - Math.pow(1 - haloEase, 1));
+
+    // apply transforms
+    dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
+    halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%, -50%)`;
+
+    requestAnimationFrame(raf);
+  }
+  // set initial positions
+  const startX = window.innerWidth/2, startY = window.innerHeight/2;
+  dot.style.transform = `translate3d(${startX}px, ${startY}px, 0) translate(-50%, -50%)`;
+  halo.style.transform = `translate3d(${startX}px, ${startY}px, 0) translate(-50%, -50%)`;
+
+  // Kick off
+  if (!prefersReduced) raf();
+
+  // Safety: if window resizes, reposition
+  window.addEventListener('resize', () => {
+    mouseX = window.innerWidth/2; mouseY = window.innerHeight/2;
+    dotX = mouseX; dotY = mouseY; haloX = mouseX; haloY = mouseY;
+  });
+
+  // Make sure inputs keep native cursor — ensure focusable elements behave normally
+  document.querySelectorAll('input, textarea, select, button, a').forEach(el=>{
+    el.addEventListener('mouseenter', ()=> { cursor.classList.add('cursor--hover'); });
+    el.addEventListener('mouseleave', ()=> { cursor.classList.remove('cursor--hover'); });
+  });
+})();
+</script>
+
+<script>
+  // set year in footer
   document.getElementById('year').innerText = new Date().getFullYear();
 </script>
 </body>
