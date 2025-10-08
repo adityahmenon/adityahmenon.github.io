@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Aditya Menon — Growth / Product / Data</title>
+<meta name="description" content="Aditya Menon — Growth engineer who builds product funnels that scale.">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<style>
+  :root{--bg:#0f1724;--card:#0b1220;--accent:#8be9fd;--muted:#9aa7b2;--glass:rgba(255,255,255,0.03);}
+  *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;line-height:1.45;background:linear-gradient(180deg,#071025 0%,#081426 100%);color:#e6f0f2}
+  .wrap{max-width:920px;margin:36px auto;padding:28px;background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,.6)}
+  header{display:flex;align-items:center;gap:18px}
+  .avatar{width:88px;height:88px;border-radius:12px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:28px}
+  h1{margin:0;font-size:26px}
+  p.lead{margin:8px 0 18px;color:var(--muted)}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+  a.btn{background:var(--accent);color:#022; padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+  a.ghost{border:1px solid rgba(255,255,255,0.06); padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none}
+  section{margin-top:22px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+  .project-title{font-weight:700;margin:0 0 6px}
+  .muted{color:var(--muted);font-size:13px}
+  footer{margin-top:26px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  form input,form textarea{width:100%;padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  form button{margin-top:8px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="avatar">AM</div>
+      <div>
+        <h1>Aditya Menon — Growth / Product / Data</h1>
+        <p class="lead">I design experiments & product funnels that scale user acquisition. Reduced CAC by 32% at my last project. Open to early-stage PM / growth roles.</p>
+        <div class="cta-row">
+          <a class="btn" href="#projects">My Work</a>
+          <a class="ghost" href="mailto:aditya@youremail.com">Email me</a>
+          <a class="ghost" href="/Aditya_Menon_Resume.pdf" download>Download CV</a>
+        </div>
+      </div>
+    </header>
+
+    <section id="projects">
+      <h2 style="margin:0 0 8px">Selected Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="project-title">Project One — Growth Funnel</div>
+          <div class="muted">Problem: low activation → Solution: onboarding experiment + A/B test → Result: +24% activation in 6 weeks</div>
+          <div style="margin-top:8px"><a class="ghost" href="https://github.com/adityamenon/project-one" target="_blank">Code / Case Study</a></div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">Project Two — Analytics Pipeline</div>
+          <div class="muted">Built event pipeline and dashboards; reduced reporting time from 4 days to 2 hours.</div>
+          <div style="margin-top:8px"><a class="ghost" href="https://demo.example.com" target="_blank">Live demo</a></div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">Project Three — Referral Loop</div>
+          <div class="muted">Designed referral loop that increased invites by 3x; used SQL, Python, and Firebase.</div>
+          <div style="margin-top:8px"><a class="ghost" href="https://github.com/adityamenon/referral" target="_blank">Write-up / Repo</a></div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">Open Source / Side Project</div>
+          <div class="muted">Small product or tool with measurable impact. Add metrics here.</div>
+          <div style="margin-top:8px"><a class="ghost" href="https://github.com/adityamenon" target="_blank">More repos</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2 style="margin:0 0 8px">Skills & Tools</h2>
+      <div class="card" style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="muted">SQL</div><div class="muted">Python</div><div class="muted">Funnel Analytics</div><div class="muted">A/B Testing</div>
+        <div class="muted">GA4</div><div class="muted">Firebase</div><div class="muted">Product Strategy</div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 style="margin:0 0 8px">About</h2>
+      <div class="card">
+        <p style="margin:0;color:var(--muted)">I’m Aditya, ECE from VIT — I help teams turn product signals into growth playbooks. Currently preparing for product/analytics roles and open to contrarian growth challenges.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 style="margin:0 0 8px">Contact</h2>
+      <div class="card">
+        <form id="contactForm" action="https://formspree.io/f/YOURENDPOINT" method="POST">
+          <input name="name" placeholder="Your name" required />
+          <input name="email" type="email" placeholder="your@email.com" required />
+          <textarea name="message" rows="4" placeholder="One line: what you want / how we can work together" required></textarea>
+          <button class="btn" type="submit">Send</button>
+        </form>
+        <p class="muted" style="margin-top:8px">Or email: <a href="mailto:aditya@youremail.com" style="color:var(--accent)">aditya@youremail.com</a></p>
+      </div>
+    </section>
+
+    <footer>
+      <div>Made by Aditya · <a class="ghost" href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> · <a class="ghost" href="https://github.com/adityamenon" target="_blank">GitHub</a></div>
+      <div class="muted">© <span id="year"></span></div>
+    </footer>
+  </div>
+
+<script>
+  document.getElementById('year').innerText = new Date().getFullYear();
+</script>
+</body>
+</html>
