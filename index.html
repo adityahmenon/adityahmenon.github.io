@@ -4,20 +4,20 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Aditya Menon — Growth / Product / Data</title>
-<meta name="description" content="Aditya Menon — Growth engineer who builds product funnels that scale.">
+<meta name="description" content="Aditya Menon — Growth engineer who builds product funnels that scale. Contact: menonaditya872@gmail.com">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style>
   /* ===== Theme variables (light + blue accents) ===== */
   :root{
-    --page-bg: #f3f6fb;        /* soft off-white */
-    --card-bg: #ffffff;        /* cards */
-    --muted: #546069;          /* muted text */
-    --text: #0b1220;           /* main text */
-    --accent-1: #2563eb;      /* blue-600 */
-    --accent-2: #1e40af;      /* blue-800 */
+    --page-bg: #f3f6fb;
+    --card-bg: #ffffff;
+    --muted: #546069;
+    --text: #0b1220;
+    --accent-1: #2563eb;
+    --accent-2: #1e40af;
     --glow: rgba(37,99,235,0.12);
     --pill-shadow: 0 8px 30px rgba(15,23,42,0.08);
-    --glass-border: rgba(255,255,255,0.6);
+    --glass-border: rgba(15,23,42,0.04);
     --radius: 14px;
   }
 
@@ -25,7 +25,7 @@
   html,body{height:100%}
   body{
     margin:0;
-    font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     color:var(--text);
     background: linear-gradient(180deg,var(--page-bg), #eef4fb 60%);
     -webkit-font-smoothing:antialiased;
@@ -34,7 +34,7 @@
 
   .container{max-width:980px;margin:0 auto}
 
-  /* ===== Full-width pill navbar (liquid glass) ===== */
+  /* ===== Full-width pill navbar (centered) ===== */
   .pill-wrap {
     position:fixed;
     left:0;
@@ -42,12 +42,12 @@
     top:18px;
     z-index:120;
     display:flex;
-    justify-content:center; /* center the pill within page width */
-    pointer-events:none; /* let inner pill receive pointer events only */
+    justify-content:center;
+    pointer-events:none;
   }
   .pill-nav{
     pointer-events:auto;
-    width:calc(100% - 60px); /* span nearly full width with side padding */
+    width:calc(100% - 60px);
     max-width:1100px;
     display:flex;
     align-items:center;
@@ -55,11 +55,11 @@
     gap:12px;
     padding:10px 18px;
     border-radius:999px;
-    background: rgba(255,255,255,0.85); /* light glass */
+    background: rgba(255,255,255,0.85);
     box-shadow: var(--pill-shadow);
     backdrop-filter: blur(8px) saturate(120%);
     -webkit-backdrop-filter: blur(8px) saturate(120%);
-    border: 1px solid rgba(30,40,60,0.04);
+    border: 1px solid var(--glass-border);
   }
 
   .pill-left{display:flex;align-items:center;gap:12px}
@@ -99,7 +99,8 @@
   header.main{display:flex;gap:18px;align-items:center}
   .hero{flex:1}
   .hero h1{margin:0;font-size:28px;letter-spacing:-0.3px}
-  .lead{margin:8px 0 16px;color:var(--muted)}
+  .lead{margin:8px 0 6px;color:var(--muted)}
+  .contact-line{margin:6px 0 14px;color:var(--muted);font-size:14px}
   .cta-row{display:flex;gap:12px;flex-wrap:wrap}
   .btn{
     background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
@@ -109,12 +110,14 @@
 
   section{margin-top:22px}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  .project{
+  .project, .experience, .edu {
     padding:14px;border-radius:12px;background: linear-gradient(180deg, rgba(250,252,255,1), rgba(247,249,255,1));
     border:1px solid rgba(15,23,42,0.03);
   }
-  .project h3{margin:0;font-size:16px;color:var(--text)}
+  h2.section-title{margin:0 0 10px;font-size:18px}
   .muted{color:var(--muted);font-size:13px;margin-top:6px}
+  .role{font-weight:700;color:var(--text)}
+  .meta{color:var(--muted);font-size:13px;margin-top:4px}
 
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .chip{background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04));padding:6px 10px;border-radius:999px;font-weight:600;color:var(--accent-2);font-size:13px;border:1px solid rgba(37,99,235,0.06)}
@@ -154,9 +157,10 @@
 
       <div class="nav-links" role="navigation" aria-label="Primary">
         <a href="#top" class="nav-link">Home</a>
+        <a href="#experience" class="nav-link">Experience</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#skills" class="nav-link">Skills</a>
-        <a href="#about" class="nav-link">About</a>
+        <a href="#education" class="nav-link">Education</a>
         <a href="#contact" class="nav-link">Contact</a>
       </div>
     </nav>
@@ -166,12 +170,16 @@
     <main class="card" id="top">
       <header class="main">
         <div class="hero">
-          <h1>Aditya Menon — Growth, Product & Data</h1>
-          <p class="lead">I design experiments and product funnels that scale acquisition and retention. I obsess over measurement, growth loops and simple code that ships results.</p>
+          <h1>Aditya Menon</h1>
+          <p class="lead">I build measurement systems, product experiments and analytics that scale decisions and growth.</p>
+          <div class="contact-line">
+            <strong>Email:</strong> <a href="mailto:menonaditya872@gmail.com">menonaditya872@gmail.com</a>  &nbsp; • &nbsp; <strong>Phone:</strong> 9833119416 &nbsp; • &nbsp; <strong>Location:</strong> Mumbai, IN
+            <div style="margin-top:6px"><a class="small-link" href="https://linkedin.com/in/adityahmenon" target="_blank">LinkedIn</a></div>
+          </div>
+
           <div class="cta-row">
-            <a class="btn" href="#projects">See my work</a>
-            <a class="ghost" href="mailto:aditya@youremail.com">Email me</a>
-            <a class="ghost" href="/Aditya_Menon_Resume.pdf" download>Download CV</a>
+            <a class="btn" href="#experience">See experience</a>
+            <a class="ghost" href="/CV - Aditya Menon.pdf" download>Download CV</a>
           </div>
         </div>
 
@@ -183,57 +191,146 @@
         </div>
       </header>
 
+      <!-- Experience -->
+      <section id="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="grid">
+          <article class="experience">
+            <div class="role">Bharat Petroleum Corporation Limited (BPCL)</div>
+            <div class="meta">Supply Chain Management (SCM) Intern — Sewri, Mumbai · June 2025 – July 2025</div>
+            <div class="muted">
+              • Deployed a SAP-linked Power BI dashboard to analyze sales, demand & balance forecasts for 600+ SKUs pan-India; cut reporting time by 93% and democratized downstream data access, minimizing the bullwhip effect.<br>
+              • Eliminated a production bottleneck from lapsed packaging tenders by creating a dashboard to monitor pending contract value and tenure, cutting such instances by ~100% through timely re-tendering.<br>
+              • Identified seasonal demand trends and root causes for over/under-forecasting to make demand forecasting more agile.
+            </div>
+          </article>
+
+          <article class="experience">
+            <div class="role">Tech Mahindra Limited</div>
+            <div class="meta">AI & Internal Automation Intern — Powai, Mumbai · May 2025 – June 2025</div>
+            <div class="muted">
+              • Ran productivity analysis across 100,000+ employees using SQL and Python to reduce lost time and billable hours; insights fed deliberations on WFH policy alignment.<br>
+              • Created a Python model to proactively flag employees with falling productivity and policy violations using Exponential Moving Averages (EMA).<br>
+              • Detected a vulnerability that allowed bypassing safety restrictions and anti-malware apps; vulnerability was patched.
+            </div>
+          </article>
+
+          <article class="experience">
+            <div class="role">Mehtta Ventures (Dubai)</div>
+            <div class="meta">Research & Deal Sourcing Intern — Remote (Dubai/Mumbai) · Dec 2024 – Mar 2025</div>
+            <div class="muted">
+              • Sourced venture deals under a $5M bracket across MENA with focus on Gaming and B2B SaaS; scouted investors for PressPlay Capital (media venture-fund).
+            </div>
+          </article>
+
+          <article class="experience">
+            <div class="role">IEEE Communications Society</div>
+            <div class="meta">Vice-Chairperson — Vellore, Tamil Nadu · Jan 2024 – Jan 2025</div>
+            <div class="muted">
+              • Led a 370-member team and won the Best IEEE Chapter Award; organized 37 events with 200+ participants each.<br>
+              • Secured the chapter’s first sponsorship and scaled chapter funds ~7× from an initial INR 5,000.<br>
+              • Established and managed the chapter Medium page, publishing articles on emerging communication technologies.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Projects -->
       <section id="projects">
-        <h2 style="margin:0 0 10px">Selected Projects</h2>
+        <h2 class="section-title">Projects</h2>
         <div class="grid">
           <article class="project">
-            <h3>Project One — Growth Funnel</h3>
-            <div class="muted">Problem: low activation. Solution: redesigned onboarding + A/B tests. Result: +24% activation in 6 weeks.</div>
-            <div style="margin-top:10px"><a class="small-link" href="https://github.com/adityamenon/project-one" target="_blank">Case study & code →</a></div>
+            <h3>Nokia Research — Power BI NMS capacity utilization & trend analysis</h3>
+            <div class="muted">
+              • Built a Power BI dashboard to log key network metrics and identify emerging trends for proactive fault detection, mitigation and capacity scaling across 2G/3G/4G/5G using ML.<br>
+              • Project slated to serve 2 of India’s 3 largest telecom providers and cover 600,000+ network components, improving experience for ~590M+ users on completion.
+            </div>
+            <div style="margin-top:10px"><a class="small-link" href="#" target="_blank">Case study (add link)</a></div>
           </article>
 
           <article class="project">
-            <h3>Project Two — Analytics Pipeline</h3>
-            <div class="muted">Built event pipeline and dashboards; reduced reporting time from 4 days to 2 hours using Airflow & Looker.</div>
-            <div style="margin-top:10px"><a class="small-link" href="https://demo.example.com" target="_blank">Live demo →</a></div>
+            <h3>BPCL / Tech Mahindra — dashboards & automation</h3>
+            <div class="muted">
+              • Delivered SAP-linked Power BI and Python automation used to cut reporting time and flag anomalies across large datasets and enterprise systems.
+            </div>
+            <div style="margin-top:10px"><a class="small-link" href="#" target="_blank">Related work (add link)</a></div>
           </article>
 
           <article class="project">
-            <h3>Project Three — Referral Loop</h3>
-            <div class="muted">Designed referral loop that increased invites by 3x; shipped with Firebase and SQL-driven incentives.</div>
-            <div style="margin-top:10px"><a class="small-link" href="https://github.com/adityamenon/referral" target="_blank">Write-up & repo →</a></div>
+            <h3>Open-source tooling & measurement scripts</h3>
+            <div class="muted">
+              • Small tools and scripts to automate funnel measurement, reporting and productivity analytics (Python, SQL, Power BI).
+            </div>
+            <div style="margin-top:10px"><a class="small-link" href="https://github.com/adityahmenon" target="_blank">More repos →</a></div>
           </article>
 
           <article class="project">
-            <h3>Open Source / Tooling</h3>
-            <div class="muted">Small tools & scripts to automate funnel measurement and reporting.</div>
-            <div style="margin-top:10px"><a class="small-link" href="https://github.com/adityamenon" target="_blank">More repos →</a></div>
+            <h3>Other research & sourcing</h3>
+            <div class="muted">
+              • Deal sourcing and market research across MENA for early-stage gaming and B2B SaaS startups; investor scouting for a media venture fund.
+            </div>
           </article>
         </div>
       </section>
 
+      <!-- Skills -->
       <section id="skills">
-        <h2 style="margin:0 0 10px">Skills & Tools</h2>
+        <h2 class="section-title">Skills & Interests</h2>
         <div class="card" style="display:flex;gap:10px;flex-wrap:wrap;border-radius:12px">
-          <div class="chip">SQL</div>
           <div class="chip">Python</div>
-          <div class="chip">A/B Testing</div>
-          <div class="chip">Funnel Analytics</div>
-          <div class="chip">GA4</div>
-          <div class="chip">Firebase</div>
-          <div class="chip">Product Strategy</div>
+          <div class="chip">Power BI</div>
+          <div class="chip">MS Excel</div>
+          <div class="chip">SQL</div>
+          <div class="chip">C / C++</div>
+          <div class="chip">R</div>
+          <div class="chip">Java</div>
+          <div class="chip">Data visualization</div>
+          <div class="chip">SAP basics</div>
+          <div class="chip">Quantitative analysis</div>
+        </div>
+
+        <div style="margin-top:12px;color:var(--muted)">
+          Interests: Critical thinking, team management, public speaking, ground research, vehicle number plate identification.
         </div>
       </section>
 
-      <section id="about">
-        <h2 style="margin:0 0 10px">About</h2>
+      <!-- Education -->
+      <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="grid">
+          <article class="edu">
+            <div class="role">Vellore Institute of Technology</div>
+            <div class="meta">B.Tech, Electronics & Communication Engineering · 2022–2026 · CGPA 9.07</div>
+          </article>
+
+          <article class="edu">
+            <div class="role">Prakash College of Science and Commerce</div>
+            <div class="meta">12th grade — 80.5% · Maharashtra State Board · 2020–2022</div>
+          </article>
+
+          <article class="edu">
+            <div class="role">Ryan International School, Malad</div>
+            <div class="meta">10th grade — ICSE 98.2% · School topper (Rank 1)</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Awards & Certifications -->
+      <section id="awards">
+        <h2 class="section-title">Awards & Certifications</h2>
         <div class="card">
-          <p class="muted" style="margin:0">I’m Aditya — ECE at VIT, turned maker. I build product experiments and measurement systems that let teams find what actually grows. I’m preparing for product / analytics roles and open to early-stage opportunities.</p>
+          <ul style="margin:0 0 0 18px;color:var(--muted)">
+            <li>Times of India Student of the Year — First Runner up (NiE Quiz)</li>
+            <li>Second Runner up — Nehru Science Centre Annual Quiz</li>
+            <li>Ryan Prince award (school)</li>
+            <li>Yale Financial Markets Course — Completed with Honors and a perfect score</li>
+          </ul>
         </div>
       </section>
 
+      <!-- Contact -->
       <section id="contact">
-        <h2 style="margin:0 0 10px">Contact</h2>
+        <h2 class="section-title">Contact</h2>
         <div class="card">
           <form action="https://formspree.io/f/YOURENDPOINT" method="POST">
             <input name="name" placeholder="Your name" required />
@@ -241,13 +338,13 @@
             <textarea name="message" rows="4" placeholder="One line: what you want / how we can work together" required></textarea>
             <button type="submit">Send</button>
           </form>
-          <p class="muted" style="margin-top:12px">Or email: <a class="small-link" href="mailto:aditya@youremail.com">aditya@youremail.com</a></p>
+          <p class="muted" style="margin-top:12px">Or email: <a class="small-link" href="mailto:menonaditya872@gmail.com">menonaditya872@gmail.com</a></p>
         </div>
       </section>
 
       <footer>
-        <div>Made by Aditya · <a class="small-link" href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> · <a class="small-link" href="https://github.com/adityahmenon" target="_blank">GitHub</a></div>
-        <div class="muted">© <span id="year"></span></div>
+        <div>Made by Aditya · <a class="small-link" href="https://linkedin.com/in/adityahmenon" target="_blank">LinkedIn</a> · <a class="small-link" href="https://github.com/adityahmenon" target="_blank">GitHub</a></div>
+        <div class="muted">Resume content source: CV - Aditya Menon.pdf. :contentReference[oaicite:1]{index=1}</div>
       </footer>
     </main>
   </div>
@@ -258,6 +355,7 @@
     a.addEventListener('click', e=>{
       e.preventDefault();
       const href = a.getAttribute('href');
+      if(!document.querySelector(href)) return;
       document.querySelector(href).scrollIntoView({behavior:'smooth', block:'start'});
       // update active
       document.querySelectorAll('.pill-nav a').forEach(x=>x.classList.remove('active'));
@@ -270,7 +368,7 @@
   if(links.length) links[0].classList.add('active');
 
   // set year
-  document.getElementById('year').innerText = new Date().getFullYear();
+  document.getElementById('year')?.innerText = new Date().getFullYear();
 </script>
 </body>
 </html>
