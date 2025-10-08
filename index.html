@@ -20,10 +20,12 @@
     --glass-border: rgba(15,23,42,0.04);
     --radius: 14px;
 
-    /* cursor sizes */
-    --cursor-dot: 10px;        /* core dot diameter */
-    --cursor-halo: 36px;       /* outer halo diameter */
-    --cursor-glow: 18px;       /* blur radius of halo */
+    /* blob cursor sizing (tweak here) */
+    --blob-core-w: 14px;     /* core width */
+    --blob-core-h: 10px;     /* core height (elliptical blob) */
+    --blob-halo: 44px;       /* halo diameter */
+    --blob-glow: 20px;       /* blur on halo */
+    --blob-wobble: 6px;      /* wobble distance for subtle motion */
   }
 
   *{box-sizing:border-box}
@@ -97,53 +99,66 @@
   form button{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); border:none; color:white; padding:10px 12px; border-radius:10px; font-weight:700; margin-top:10px }
   a.small-link{ color:var(--accent-1); text-decoration:none; font-weight:700 }
 
-  /* ======================================================================
-     CUSTOM CURSOR (blue laser dot)
-     - Activation & visibility controlled via JS toggling body.has-custom-cursor
-     - Native cursor preserved for inputs/buttons and on touch devices
-     ====================================================================== */
+  /* ===========================
+     BLOB CURSOR STYLES
+     - visible only when body.has-custom-cursor is present
+     - native cursor preserved for inputs/buttons/links
+     =========================== */
 
-  /* Hide custom cursor elements by default */
-  .custom-cursor { display:none; pointer-events:none; position:fixed; z-index:99999; mix-blend-mode:normal; opacity:0; transition:opacity .2s linear; }
+  .custom-cursor { display:none; position:fixed; left:0; top:0; z-index:9999999; pointer-events:none; mix-blend-mode:normal; }
 
-  /* When active, show it */
-  body.has-custom-cursor .custom-cursor { display:block; opacity:1; }
+  body.has-custom-cursor .custom-cursor { display:block; }
 
-  /* also hide native cursor when custom active, except on form elements */
+  /* hide native cursor globally when custom active (but not on inputs/links) */
   body.has-custom-cursor { cursor: none; }
   input, textarea, select, button, a { cursor: auto !important; }
 
-  /* Dot (inner) */
-  .cursor-dot {
-    width: var(--cursor-dot); height: var(--cursor-dot);
-    border-radius:50%;
-    background: var(--accent-1);
-    box-shadow: 0 0 6px rgba(37,99,235,0.95);
-    transform: translate(-50%, -50%) scale(1);
-    will-change: transform, opacity;
+  /* blob core (elliptical) */
+  .blob-core {
+    width: var(--blob-core-w); height: var(--blob-core-h);
+    background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+    border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%; /* asymmetric blob */
+    box-shadow: 0 6px 18px rgba(37,99,235,0.85);
+    transform: translate(-50%,-50%) scale(1);
     position:absolute; left:0; top:0;
+    will-change: transform, opacity;
   }
 
-  /* Halo (outer soft glow) */
-  .cursor-halo {
-    width: var(--cursor-halo); height: var(--cursor-halo);
+  /* halo */
+  .blob-halo {
+    width: var(--blob-halo); height: var(--blob-halo);
     border-radius:50%;
-    background: radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(37,99,235,0.06) 30%, rgba(37,99,235,0.02) 60%, transparent 100%);
-    filter: blur(var(--cursor-glow));
-    transform: translate(-50%, -50%) scale(1);
-    will-change: transform, opacity;
+    background: radial-gradient(circle, rgba(37,99,235,0.16) 0%, rgba(37,99,235,0.06) 30%, rgba(37,99,235,0.02) 60%, transparent 100%);
+    filter: blur(var(--blob-glow));
     position:absolute; left:0; top:0;
+    transform: translate(-50%,-50%) scale(1);
     opacity:0.95;
+    will-change: transform, opacity;
   }
 
-  /* Hover state: subtle scale */
-  body.has-custom-cursor .cursor--hover .cursor-dot { transform: translate(-50%, -50%) scale(0.78); box-shadow: 0 0 8px rgba(37,99,235,0.95); }
-  body.has-custom-cursor .cursor--hover .cursor-halo { opacity:0.9; transform: translate(-50%, -50%) scale(1.02); }
+  /* subtle wobble animation on non-reduced motion */
+  @keyframes blob-wobble {
+    0% { transform: translate(-50%,-50%) rotate(-3deg) scale(1); }
+    50% { transform: translate(calc(-50% + var(--blob-wobble)), calc(-50% - var(--blob-wobble))) rotate(3deg) scale(1.02); }
+    100% { transform: translate(-50%,-50%) rotate(-3deg) scale(1); }
+  }
+  /* apply wobble to the core only when active (not reduced-motion) */
+  @media (prefers-reduced-motion: no-preference) {
+    body.has-custom-cursor .blob-core.wobble {
+      animation: blob-wobble 2.8s ease-in-out infinite;
+      transform-origin: center;
+    }
+  }
 
-  /* Respect reduced motion */
+  /* hover state: shrink core slightly, tighten halo */
+  body.has-custom-cursor.cursor--hover .blob-core { transform: translate(-50%,-50%) scale(0.85); box-shadow: 0 8px 22px rgba(37,99,235,0.95); }
+  body.has-custom-cursor.cursor--hover .blob-halo { opacity:0.9; transform: translate(-50%,-50%) scale(0.98); }
+
+  /* respect reduced-motion: no wobble, instant transforms */
   @media (prefers-reduced-motion: reduce) {
-    .cursor-dot, .cursor-halo { transition: none !important; animation: none !important; }
+    .blob-core, .blob-halo { transition: none !important; animation: none !important; }
   }
+
 </style>
 </head>
 <body>
@@ -271,14 +286,14 @@
     </main>
   </div>
 
-  <!-- Custom cursor elements -->
+  <!-- Blob cursor DOM (kept at end for z-index) -->
   <div class="custom-cursor" id="customCursor" aria-hidden="true">
-    <div class="cursor-halo" id="cursorHalo"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="blob-halo" id="cursorHalo"></div>
+    <div class="blob-core wobble" id="cursorDot"></div>
   </div>
 
 <script>
-/* Robust smooth scroll fix (unchanged) */
+/* Robust smooth scroll fix */
 (function(){
   const nav = document.querySelector('.pill-nav');
   const links = document.querySelectorAll('.pill-nav a.nav-link, .pill-nav .nav-links a');
@@ -319,99 +334,128 @@
   window.addEventListener('load', onScroll);
 })();
 
-/* Custom cursor: JS decides whether to enable it and toggles body.has-custom-cursor
-   This avoids race conditions between CSS media queries and JS. */
+/* FINAL: Robust blob cursor init (permanent)
+   - creates DOM if missing
+   - respects hover+fine pointer; otherwise disabled
+   - respects prefers-reduced-motion (instant follow when reduced)
+   - uses eased RAF when not reduced
+*/
 (function(){
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  if (!finePointer) {
-    // Do not enable custom cursor on touch/coarse devices.
-    document.body.classList.remove('has-custom-cursor');
-    return;
-  }
-
-  // enable cursor by adding class to body
-  document.body.classList.add('has-custom-cursor');
-
-  const cursorEl = document.getElementById('customCursor');
-  const dot = document.getElementById('cursorDot');
-  const halo = document.getElementById('cursorHalo');
-
-  // initial placement at center so it doesn't flash elsewhere
-  let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-  let dotX = mouseX, dotY = mouseY;
-  let haloX = mouseX, haloY = mouseY;
-
-  // easing (smaller => snappier), respects reduced motion
-  const dotEase = prefersReduced ? 1 : 0.28;
-  const haloEase = prefersReduced ? 1 : 0.12;
-
-  // ensure visible
-  cursorEl.style.opacity = 1;
-  dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%,-50%)`;
-  halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%,-50%)`;
-
-  // helper to detect interactive elements
-  function isInteractive(el) {
-    if (!el) return false;
-    const tag = el.tagName;
-    if (tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
-    if (el.closest && el.closest('a,button,input,textarea,select')) return true;
-    return false;
-  }
-
-  let hovering = false;
-  window.addEventListener('pointermove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-
-    const newHover = isInteractive(e.target);
-    if (newHover !== hovering) {
-      hovering = newHover;
-      if (hovering) cursorEl.classList.add('cursor--hover');
-      else cursorEl.classList.remove('cursor--hover');
+  try {
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const hover = window.matchMedia('(hover: hover)').matches;
+    if (!(fine && hover)) {
+      document.body.classList.remove('has-custom-cursor');
+      console.log('Custom cursor disabled (no fine-pointer+hover).');
+      return;
     }
-  }, {passive:true});
 
-  window.addEventListener('pointerleave', () => { cursorEl.style.opacity = 0; });
-  window.addEventListener('pointerenter', () => { cursorEl.style.opacity = 1; });
+    // ensure class & DOM
+    document.body.classList.add('has-custom-cursor');
+    let cursor = document.getElementById('customCursor');
+    if (!cursor) {
+      cursor = document.createElement('div');
+      cursor.id = 'customCursor';
+      cursor.className = 'custom-cursor';
+      cursor.style.position = 'fixed';
+      cursor.style.left = '0';
+      cursor.style.top = '0';
+      cursor.style.zIndex = '9999999';
+      cursor.style.pointerEvents = 'none';
+      cursor.innerHTML = '<div class="blob-halo" id="cursorHalo"></div><div class="blob-core wobble" id="cursorDot"></div>';
+      document.body.appendChild(cursor);
+    }
 
-  // animation loop (lerp)
-  let running = true;
-  function lerp(a,b,t){ return a + (b-a) * t; }
+    const dot = document.getElementById('cursorDot');
+    const halo = document.getElementById('cursorHalo');
 
-  function frame(){
-    // update positions
-    dotX = lerp(dotX, mouseX, 1 - Math.pow(1 - dotEase, 1));
-    dotY = lerp(dotY, mouseY, 1 - Math.pow(1 - dotEase, 1));
-    haloX = lerp(haloX, mouseX, 1 - Math.pow(1 - haloEase, 1));
-    haloY = lerp(haloY, mouseY, 1 - Math.pow(1 - haloEase, 1));
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%,-50%)`;
-    halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%,-50%)`;
+    function isInteractive(el){
+      if (!el) return false;
+      const tag = el.tagName;
+      if (tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+      return !!(el.closest && el.closest('a,button,input,textarea,select'));
+    }
 
-    if (running && !prefersReduced) requestAnimationFrame(frame);
+    // initialize center
+    let mx = window.innerWidth/2, my = window.innerHeight/2;
+    function setPos(x,y){
+      if (dot) dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%,-50%)`;
+      if (halo) halo.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%,-50%)`;
+    }
+    setPos(mx,my);
+
+    // hover tracking
+    let hovering = false;
+    function handleHover(target){
+      const newHover = isInteractive(target);
+      if (newHover !== hovering) {
+        hovering = newHover;
+        if (hovering) document.body.classList.add('cursor--hover');
+        else document.body.classList.remove('cursor--hover');
+      }
+    }
+
+    if (prefersReduced) {
+      // instant follow — no RAF or animation
+      window.addEventListener('pointermove', e=>{
+        mx = e.clientX; my = e.clientY;
+        setPos(mx,my);
+        handleHover(e.target);
+      }, {passive:true});
+      window.addEventListener('pointerleave', ()=> { cursor.style.opacity = 0; });
+      window.addEventListener('pointerenter', ()=> { cursor.style.opacity = 1; });
+      console.log('Blob cursor active (reduced-motion: instant follow).');
+      return;
+    }
+
+    // eased follow using RAF
+    let dotX = mx, dotY = my, haloX = mx, haloY = my;
+    const dotEase = 0.28, haloEase = 0.12;
+
+    window.addEventListener('pointermove', e=>{
+      mx = e.clientX; my = e.clientY;
+      handleHover(e.target);
+    }, {passive:true});
+
+    window.addEventListener('pointerleave', ()=> { cursor.style.opacity = 0; });
+    window.addEventListener('pointerenter', ()=> { cursor.style.opacity = 1; });
+
+    function lerp(a,b,t){ return a + (b-a)*t; }
+
+    let running = true;
+    function frame(){
+      dotX = lerp(dotX, mx, dotEase);
+      dotY = lerp(dotY, my, dotEase);
+      haloX = lerp(haloX, mx, haloEase);
+      haloY = lerp(haloY, my, haloEase);
+
+      if (dot) dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%,-50%)`;
+      if (halo) halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%,-50%)`;
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    // ensure native cursor remains on inputs/links
+    document.querySelectorAll('input, textarea, select, button, a').forEach(el=>{
+      el.addEventListener('mouseenter', ()=> document.body.classList.add('cursor--hover'));
+      el.addEventListener('mouseleave', ()=> document.body.classList.remove('cursor--hover'));
+    });
+
+    console.log('Blob cursor initialized (eased follow).');
+
+  } catch (err) {
+    console.error('Cursor init error', err);
+    document.body.classList.remove('has-custom-cursor');
   }
+})();
+</script>
 
-  if (!prefersReduced) requestAnimationFrame(frame);
-
-  // keep positions correct on resize
-  window.addEventListener('resize', () => {
-    mouseX = window.innerWidth/2; mouseY = window.innerHeight/2;
-    dotX = mouseX; dotY = mouseY; haloX = mouseX; haloY = mouseY;
-  });
-
-  // ensure native cursor visible on inputs etc
-  document.querySelectorAll('input, textarea, select, button, a').forEach(el=>{
-    el.addEventListener('mouseenter', ()=> { cursorEl.classList.add('cursor--hover'); });
-    el.addEventListener('mouseleave', ()=> { cursorEl.classList.remove('cursor--hover'); });
-  });
-
-})(); // end cursor init
-
-// set footer year
-document.getElementById('year').innerText = new Date().getFullYear();
+<script>
+  // set year
+  document.getElementById('year').innerText = new Date().getFullYear();
 </script>
 </body>
 </html>
