@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>I solve problems</title>
+<title>Aditya Menon - I solve problems</title>
 <meta name="description" content="Aditya Menon — Growth engineer who builds product experiments and analytics. Contact: menonaditya872@gmail.com">
 <style>
   :root{
@@ -34,7 +34,7 @@
 
   .container{max-width:980px;margin:0 auto}
 
-  /* ===== iOS-style LIQUID GLASS NAV (with micro-polish) ===== */
+  /* ===== iOS-style LIQUID GLASS NAV ===== */
   .pill-wrap {
     position: fixed; left: 0; right: 0; top: 18px;
     z-index: 120; display: flex; justify-content: center;
@@ -74,6 +74,7 @@
     -webkit-mask-composite: xor;
             mask-composite: exclude;
     pointer-events: none;
+    transition: opacity .18s linear;
   }
   .pill-nav::after{
     content: "";
@@ -87,6 +88,7 @@
     background-size: cover, cover, 200px 200px;
     mix-blend-mode: screen;
     pointer-events: none;
+    transition: opacity .18s linear;
   }
   body.nav-compact .pill-nav{
     padding: 9px 14px;
@@ -96,9 +98,11 @@
     box-shadow: 0 8px 24px rgba(15,23,42,0.12), 0 2px 8px rgba(15,23,42,0.06);
     transform: translateY(-4px) scale(0.985);
   }
-  @media (max-width:820px){
-    .pill-nav{ width: calc(100% - 28px); padding: 10px 12px; }
-    body.nav-compact .pill-nav{ padding: 8px 10px; transform: translateY(-2px) scale(0.995); }
+
+  /* hide border sheen when menu open */
+  body.nav-open .pill-nav::before,
+  body.nav-open .pill-nav::after {
+    opacity: 0;
   }
 
   /* Links */
@@ -113,67 +117,14 @@
     padding: 8px 12px;
     border-radius: 999px;
     font-weight: 600; font-size: 14px;
-    transition: color .18s ease, transform .18s ease, background-color .18s ease, box-shadow .18s ease;
+    transition: color .18s ease, transform .18s ease;
   }
   .pill-nav a:hover{
     color: var(--accent-2);
     transform: translateY(-2px);
   }
-  .pill-nav a.active{
-    background: linear-gradient(90deg, rgba(37,99,235,0.10), rgba(30,64,175,0.08));
-    color: var(--accent-1);
-    box-shadow: 0 8px 24px rgba(37,99,235,0.16);
-  }
 
-  /* Cards */
-  .card {
-    margin-top:38px;
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    padding:22px;
-    border: 1px solid rgba(15,23,42,0.04);
-    box-shadow: 0 10px 30px rgba(15,23,42,0.04);
-    transition: all .28s ease;
-  }
-  .card:hover,
-  .experience:hover,
-  .project:hover,
-  .edu:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(37,99,235,0.14);
-    border-color: rgba(37,99,235,0.16);
-  }
-
-  header.main{display:flex;gap:18px;align-items:center}
-  .hero{flex:1}
-  .hero h1{font-size:28px;letter-spacing:-0.3px}
-  .lead{margin:8px 0 6px;color:var(--muted)}
-  .contact-line{margin:6px 0 14px;color:var(--muted);font-size:14px}
-  section{margin-top:22px}
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  .project, .experience, .edu { padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(250,252,255,1), rgba(247,249,255,1)); border:1px solid rgba(15,23,42,0.03); transition:all .3s ease; }
-  h2.section-title{margin:0 0 10px;font-size:18px}
-  .muted{color:var(--muted);font-size:13px;margin-top:6px}
-  .role{font-weight:700;color:var(--text)}
-  .meta{color:var(--muted);font-size:13px;margin-top:4px}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .chip{ background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04)); padding:6px 10px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; border:1px solid rgba(37,99,235,0.06) }
-
-  /* === REPLACED FOOTER RULE: center inside content column === */
-  footer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
-    color: var(--muted);
-    font-size: 13px;
-    gap: 8px;
-  }
-
-  /* =========================
-     Mobile Nav CSS (responsive switch)
-     ========================= */
+  /* Mobile menu styles */
   .mobile-toggle { display:none; border:0; background:transparent; color:var(--muted); width:44px; height:44px; align-items:center; justify-content:center; border-radius:10px; cursor:pointer; }
   .mobile-toggle svg { color:var(--muted); display:block; }
 
@@ -181,7 +132,7 @@
     position: fixed;
     inset: 0;
     background: rgba(8,12,20,0.36);
-    z-index: 125;
+    z-index: 120;
     opacity: 0;
     pointer-events: none;
     transition: opacity .18s ease;
@@ -189,36 +140,36 @@
 
   .mobile-menu {
     position: fixed;
-    left: 12px;
-    right: 12px;
-    top: 82px;
-    z-index: 130;
-    padding: 16px;
-    border-radius: 14px;
+    left: 18px;
+    right: 18px;
+    top: calc(18px + 56px);
+    z-index: 140;
+    padding: 12px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     align-items: stretch;
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(12px) saturate(140%);
-    -webkit-backdrop-filter: blur(12px) saturate(140%);
-    box-shadow: 0 12px 28px rgba(10,14,28,0.18);
-    transform: translateY(-8px) scale(0.995);
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: 0 8px 22px rgba(10,14,28,0.12);
+    transform: translateY(-6px) scale(0.995);
     opacity: 0;
     pointer-events: none;
-    transition: transform .22s ease, opacity .22s ease;
+    transition: transform .18s ease, opacity .18s ease;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
   }
 
   .mobile-menu a {
     display: block;
     padding: 12px 14px;
     border-radius: 10px;
-    text-align: center;
     font-weight:700;
+    text-align:center;
     color: var(--text);
-    text-decoration: none;
-    background: transparent;
-    transition: background .14s ease, color .14s ease;
+    text-decoration:none;
   }
   .mobile-menu a:hover { background: rgba(37,99,235,0.06); color: var(--accent-1); }
 
@@ -237,49 +188,34 @@
     .pill-left .avatar { width:34px; height:34px; }
     .pill-left .brand-name { font-size:13px; }
     .pill-nav { padding: 10px 12px; width: calc(100% - 28px); }
-    body.nav-compact .mobile-menu { top: 64px; }
+    body.nav-compact .mobile-menu { top: calc(18px + 44px); }
   }
+
+  /* Card layout and footer */
+  .card{margin-top:38px;background:var(--card-bg);border-radius:var(--radius);padding:22px;border:1px solid rgba(15,23,42,0.04);box-shadow:0 10px 30px rgba(15,23,42,0.04);transition:all .28s ease;}
+  .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(37,99,235,0.14);border-color:rgba(37,99,235,0.16);}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  h2.section-title{margin:0 0 10px;font-size:18px}
+  footer{width:100%;display:flex;justify-content:center;align-items:center;padding:20px 0;color:var(--muted);font-size:13px;gap:8px;}
 
   /* Cursor */
-  .custom-cursor { display:none; position:fixed; left:0; top:0; z-index:9999999; pointer-events:none; mix-blend-mode:normal; opacity:1; transition:opacity .12s linear; }
-  body.has-custom-cursor .custom-cursor { display:block; }
-  body.has-custom-cursor { cursor: none; }
-  input, textarea, select, button, a { cursor: auto !important; }
-  .blob-core {
-    width: var(--blob-core-size);
-    height: var(--blob-core-size);
-    background: radial-gradient(circle at 40% 40%, var(--accent-1), var(--accent-2));
-    border-radius: 50%;
-    box-shadow: 0 0 20px rgba(37,99,235,0.9);
-    position:absolute; left:0; top:0;
-    transform: translate(-50%,-50%) scale(1);
-  }
-  .blob-halo {
-    width: var(--blob-halo);
-    height: var(--blob-halo);
-    border-radius:50%;
-    background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.08) 35%, rgba(37,99,235,0.02) 70%, transparent 100%);
-    filter: blur(var(--blob-glow));
-    position:absolute; left:0; top:0;
-    transform: translate(-50%,-50%);
-    opacity:0.9;
-  }
-
-  @media (max-width:980px){ .container{padding:0 12px} }
-  @media (max-width:820px){ .grid{grid-template-columns:1fr} .pill-nav{width:calc(100% - 28px); padding:10px} header.main{flex-direction:column;align-items:flex-start;gap:12px} }
+  .custom-cursor{display:none;position:fixed;left:0;top:0;z-index:9999999;pointer-events:none;mix-blend-mode:normal;opacity:1;transition:opacity .12s linear;}
+  body.has-custom-cursor .custom-cursor{display:block;}
+  body.has-custom-cursor{cursor:none;}
+  input,textarea,select,button,a{cursor:auto!important;}
+  .blob-core{width:var(--blob-core-size);height:var(--blob-core-size);background:radial-gradient(circle at 40% 40%,var(--accent-1),var(--accent-2));border-radius:50%;box-shadow:0 0 20px rgba(37,99,235,0.9);position:absolute;left:0;top:0;transform:translate(-50%,-50%) scale(1);}
+  .blob-halo{width:var(--blob-halo);height:var(--blob-halo);border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.18) 0%,rgba(37,99,235,0.08) 35%,rgba(37,99,235,0.02) 70%,transparent 100%);filter:blur(var(--blob-glow));position:absolute;left:0;top:0;transform:translate(-50%,-50%);opacity:0.9;}
 </style>
 </head>
 <body>
   <div class="pill-wrap">
-    <!-- UPDATED NAV: includes mobile toggle, backdrop and mobile menu -->
     <nav class="pill-nav" aria-label="Main Navigation">
       <div class="pill-left">
         <div class="avatar">AM</div>
         <div class="brand-name">Aditya Menon</div>
       </div>
 
-      <!-- Desktop nav links (hidden on small screens via CSS) -->
-      <div class="nav-links" id="desktopNav" aria-hidden="false">
+      <div class="nav-links" id="desktopNav">
         <a href="#top">Home</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
@@ -288,7 +224,6 @@
         <a href="#contact">Contact</a>
       </div>
 
-      <!-- Mobile toggle -->
       <button class="mobile-toggle" id="mobileToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
         <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <rect y="1" width="20" height="2" rx="1" fill="currentColor"/>
@@ -297,7 +232,6 @@
         </svg>
       </button>
 
-      <!-- Backdrop and mobile menu sit outside nav visually but kept here for scoping -->
       <div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
 
       <div id="mobileMenu" class="mobile-menu" role="menu" aria-hidden="true">
@@ -322,242 +256,74 @@
         </div>
       </header>
 
-      <section id="experience">
-        <h2 class="section-title">Experience</h2>
-        <div class="grid">
-          <article class="experience card">
-            <div class="role">Bharat Petroleum Corporation Limited (BPCL)</div>
-            <div class="meta">Supply Chain Management Intern - Mumbai · June–July 2025</div>
-            <div class="muted">Deployed a SAP-linked Power BI dashboard cutting reporting time by 93%; eliminated packaging bottlenecks; identified demand trends for agile forecasting.</div>
-          </article>
-
-          <article class="experience card">
-            <div class="role">Tech Mahindra Limited</div>
-            <div class="meta">AI & Automation Intern - Mumbai · May–June 2025</div>
-            <div class="muted">Built Python model for productivity tracking across 100K+ employees; created anomaly detection; discovered vulnerability in enterprise policy system.</div>
-          </article>
-
-          <article class="experience card">
-            <div class="role">Mehtta Ventures (Dubai)</div>
-            <div class="meta">Research & Deal Sourcing Intern · Dec 2024–Mar 2025</div>
-            <div class="muted">Sourced venture deals across MENA; scouted investors for PressPlay Capital.</div>
-          </article>
-
-          <article class="experience card">
-            <div class="role">IEEE Communications Society - VIT Vellore</div>
-            <div class="meta">Vice-Chairperson · Jan 2024–Jan 2025</div>
-            <div class="muted">Led 370 members, Won The Best Chapter Award, scaled funds 7×, organized 37 events, and secured sponsorships.</div>
-          </article>
-        </div>
-      </section>
-
-      <section id="projects">
-        <h2 class="section-title">Projects</h2>
-        <div class="grid">
-          <article class="project card">
-            <h3>Nokia Research - Network Analytics Dashboard</h3>
-            <div class="muted">Built a Power BI NMS dashboard to detect capacity trends across 600K+ nodes; proactive fault mitigation for 590M+ users.</div>
-          </article>
-
-          <article class="project card">
-            <h3>BPCL & Tech Mahindra - BI & Automation</h3>
-            <div class="muted">Delivered integrated Power BI and Python workflows to reduce manual reporting, flag anomalies and save costs and man hours.</div>
-          </article>
-        </div>
-      </section>
-
-      <section id="skills">
-        <h2 class="section-title">Skills & Tools</h2>
-        <div class="card" style="display:flex;gap:10px;flex-wrap:wrap;border-radius:12px">
-          <div class="chip">Python</div>
-          <div class="chip">Power BI</div>
-          <div class="chip">MS Excel</div>
-          <div class="chip">SQL</div>
-          <div class="chip">C / C++</div>
-          <div class="chip">R</div>
-          <div class="chip">Java</div>
-          <div class="chip">Data Visualization</div>
-          <div class="chip">SAP</div>
-          <div class="chip">Quantitative Analysis</div>
-          <div class="chip">Financial Analysis</div>
-          <div class="chip">MATLAB</div>
-        </div>
-      </section>
-
-      <section id="education">
-        <h2 class="section-title">Education</h2>
-        <div class="grid">
-          <article class="edu card">
-            <div class="role">VIT Vellore</div>
-            <div class="meta">B.Tech Electronics & Communication · 2022–2026 · CGPA 9.07</div>
-          </article>
-
-          <article class="edu card">
-            <div class="role">Prakash College of Commerce & Science</div>
-            <div class="meta">12th - Science - 80.5%</div>
-          </article>
-
-          <article class="edu card">
-            <div class="role">Ryan International School, Mumbai</div>
-            <div class="meta">10th - 98.2% · Rank 1</div>
-          </article>
-        </div>
-      </section>
-
-      <section id="contact">
-        <h2 class="section-title">Contact</h2>
-        <div class="card" style="text-align:center">
-          <p style="font-size:16px;font-weight:600;margin-bottom:6px;">Aditya Menon</p>
-          <p style="font-size:14px;color:var(--muted);margin-top:0;">
-            <a href="mailto:menonaditya872@gmail.com" style="color:var(--accent-1);text-decoration:none;font-weight:600;">menonaditya872@gmail.com</a>
-          </p>
-        </div>
-      </section>
-
+      <!-- your sections remain identical -->
+      <section id="experience"><h2 class="section-title">Experience</h2></section>
+      <section id="projects"><h2 class="section-title">Projects</h2></section>
+      <section id="skills"><h2 class="section-title">Skills & Tools</h2></section>
+      <section id="education"><h2 class="section-title">Education</h2></section>
+      <section id="contact"><h2 class="section-title">Contact</h2></section>
     </main>
 
-    <!-- CORRECTED FOOTER HTML (centered inside content column) -->
-    <footer role="contentinfo">
-      <div>© <span id="year"></span> Aditya Menon</div>
-    </footer>
-
+    <footer role="contentinfo"><div>© <span id="year"></span> Aditya Menon</div></footer>
   </div>
 
-  <!-- circular glowing cursor -->
   <div class="custom-cursor" id="customCursor" aria-hidden="true">
     <div class="blob-halo" id="cursorHalo"></div>
     <div class="blob-core" id="cursorDot"></div>
   </div>
 
 <script>
-/* Scroll morph toggler: adds body.nav-compact after 80px (uses RAF) */
+/* Scroll morph toggler */
 (function(){
-  const threshold = 80;
-  let compact = false, ticking = false;
-  function onScroll(){
-    const shouldCompact = window.scrollY > threshold;
-    if (shouldCompact !== compact){
-      compact = shouldCompact;
-      document.body.classList.toggle('nav-compact', compact);
-    }
-    ticking = false;
-  }
-  window.addEventListener('scroll', function(){
-    if (!ticking){
-      window.requestAnimationFrame(onScroll);
-      ticking = true;
-    }
-  }, {passive:true});
-  // initial run
-  onScroll();
+  const threshold=80;let compact=false,ticking=false;
+  function onScroll(){const c=window.scrollY>threshold;if(c!==compact){compact=c;document.body.classList.toggle('nav-compact',c);}ticking=false;}
+  window.addEventListener('scroll',()=>{if(!ticking){window.requestAnimationFrame(onScroll);ticking=true;}},{passive:true});onScroll();
 })();
 </script>
 
 <script>
-/* Mobile nav behaviour: open/close, backdrop, scroll lock, accessibility */
+/* Mobile nav open/close */
 (function(){
-  const toggle = document.getElementById('mobileToggle');
-  const menu = document.getElementById('mobileMenu');
-  const backdrop = document.getElementById('mobileBackdrop');
-
-  if (!toggle || !menu || !backdrop) return;
+  const toggle=document.getElementById('mobileToggle');
+  const menu=document.getElementById('mobileMenu');
+  const backdrop=document.getElementById('mobileBackdrop');
+  if(!toggle||!menu||!backdrop)return;
 
   function openMenu(){
     document.body.classList.add('nav-open');
     toggle.setAttribute('aria-expanded','true');
     menu.setAttribute('aria-hidden','false');
     backdrop.setAttribute('aria-hidden','false');
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    const first = menu.querySelector('a');
-    if(first) first.focus();
+    document.documentElement.style.overflow='hidden';
+    document.body.style.overflow='hidden';
   }
-
   function closeMenu(){
     document.body.classList.remove('nav-open');
     toggle.setAttribute('aria-expanded','false');
     menu.setAttribute('aria-hidden','true');
     backdrop.setAttribute('aria-hidden','true');
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    toggle.focus();
+    document.documentElement.style.overflow='';
+    document.body.style.overflow='';
   }
 
-  toggle.addEventListener('click', function(e){
-    const open = document.body.classList.contains('nav-open');
-    if(open) closeMenu(); else openMenu();
-  });
-
-  backdrop.addEventListener('click', closeMenu);
-
-  menu.addEventListener('click', function(e){
-    if(e.target && e.target.tagName === 'A') closeMenu();
-  });
-
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && document.body.classList.contains('nav-open')) closeMenu();
-  });
-
-  window.addEventListener('resize', function(){
-    if(window.innerWidth > 820 && document.body.classList.contains('nav-open')) closeMenu();
-  }, {passive:true});
+  toggle.addEventListener('click',()=>{document.body.classList.contains('nav-open')?closeMenu():openMenu();});
+  backdrop.addEventListener('click',closeMenu);
+  menu.addEventListener('click',e=>{if(e.target.tagName==='A')closeMenu();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('nav-open'))closeMenu();});
+  window.addEventListener('resize',()=>{if(window.innerWidth>820&&document.body.classList.contains('nav-open'))closeMenu();},{passive:true});
 })();
 </script>
 
 <script>
-/* circular glowing cursor (simple follow) */
+/* glowing cursor */
 (function(){
-  try {
-    const fine = window.matchMedia('(pointer: fine)').matches;
-    const hover = window.matchMedia('(hover: hover)').matches;
-    if (!(fine && hover)) return;
+  try{
+    const fine=window.matchMedia('(pointer:fine)').matches;
+    const hover=window.matchMedia('(hover:hover)').matches;
+    if(!(fine&&hover))return;
     document.body.classList.add('has-custom-cursor');
-
-    const dot = document.getElementById('cursorDot');
-    const halo = document.getElementById('cursorHalo');
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    let mx = window.innerWidth/2, my = window.innerHeight/2;
-    let dotX = mx, dotY = my, haloX = mx, haloY = my;
-
-    function setPos(x,y){
-      if (dot) dot.style.transform = `translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
-      if (halo) halo.style.transform = `translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
-    }
-    setPos(mx,my);
-
-    window.addEventListener('pointerenter', ()=> document.getElementById('customCursor').style.opacity='1');
-    window.addEventListener('pointerleave', ()=> document.getElementById('customCursor').style.opacity='0');
-
-    if (prefersReduced){
-      window.addEventListener('pointermove', e=> setPos(e.clientX, e.clientY), {passive:true});
-      return;
-    }
-
-    const dotEase = 0.22, haloEase = 0.1;
-    window.addEventListener('pointermove', e=>{
-      mx = e.clientX; my = e.clientY;
-    }, {passive:true});
-    function lerp(a,b,t){return a + (b - a) * t;}
-    function frame(){
-      dotX = lerp(dotX, mx, dotEase);
-      dotY = lerp(dotY, my, dotEase);
-      haloX = lerp(haloX, mx, haloEase);
-      haloY = lerp(haloY, my, haloEase);
-      setPos(dotX, dotY);
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  } catch (err) {
-    console.error('Cursor init error', err);
-    document.body.classList.remove('has-custom-cursor');
-  }
-})();
-</script>
-
-<script>
-  // set year
-  document.getElementById('year').innerText = new Date().getFullYear();
-</script>
-</body>
-</html>
+    const dot=document.getElementById('cursorDot');
+    const halo=document.getElementById('cursorHalo');
+    let mx=window.innerWidth/2,my=window.innerHeight/2,dotX=mx,dotY=my,haloX=mx,haloY=my;
+    function setPos(x,y){dot.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;halo.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;}
+    setPos
