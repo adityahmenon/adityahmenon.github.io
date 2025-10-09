@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Aditya Menon — Growth / Product / Data</title>
-<meta name="description" content="Aditya Menon — Growth engineer who builds product funnels that scale. Contact: menonaditya872@gmail.com">
+<meta name="description" content="Aditya Menon — Growth engineer who builds product experiments and analytics. Contact: menonaditya872@gmail.com">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style>
@@ -21,17 +21,17 @@
     --radius: 14px;
 
     /* Tuned blob cursor sizing (bolder, softer) */
-    --blob-core-w: 18px;     /* core width (increased) */
-    --blob-core-h: 12px;     /* core height (increased) */
-    --blob-halo: 54px;       /* halo diameter (larger) */
-    --blob-glow: 26px;       /* blur on halo (softer) */
-    --blob-wobble: 9px;      /* wobble distance (a little stronger) */
+    --blob-core-w: 18px;
+    --blob-core-h: 12px;
+    --blob-halo: 54px;
+    --blob-glow: 26px;
+    --blob-wobble: 9px;
   }
 
   *{box-sizing:border-box}
   html,body{height:100%}
   html { scroll-behavior: smooth; }
-  section, main { scroll-margin-top: 96px; } /* offset for fixed nav */
+  section, main { scroll-margin-top: 96px; }
 
   body{
     margin:0;
@@ -44,7 +44,6 @@
 
   .container{max-width:980px;margin:0 auto}
 
-  /* NAV */
   .pill-wrap { position:fixed; left:0; right:0; top:18px; z-index:120; display:flex; justify-content:center; pointer-events:none; }
   .pill-nav{
     pointer-events:auto;
@@ -58,6 +57,7 @@
     -webkit-backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid var(--glass-border);
   }
+
   .pill-left{display:flex;align-items:center;gap:12px}
   .avatar{ width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
     display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(30,40,60,0.06) }
@@ -67,7 +67,6 @@
   .pill-nav a:hover{ color:var(--accent-2); transform:translateY(-2px); }
   .pill-nav a.active{ background: linear-gradient(90deg, rgba(37,99,235,0.09), rgba(30,64,175,0.06)); color: var(--accent-1); box-shadow: 0 8px 30px var(--glow); }
 
-  /* PAGE LAYOUT */
   .card { margin-top:38px; background: var(--card-bg); border-radius: var(--radius); padding:28px; border: 1px solid rgba(15,23,42,0.04); box-shadow: 0 10px 30px rgba(15,23,42,0.04); }
   header.main{display:flex;gap:18px;align-items:center}
   .hero{flex:1}
@@ -88,10 +87,10 @@
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .chip{ background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04)); padding:6px 10px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; border:1px solid rgba(37,99,235,0.06) }
   footer{ margin-top:28px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap }
+
   @media (max-width:980px){ .container{padding:0 12px} }
   @media (max-width:820px){ .grid{grid-template-columns:1fr} .pill-nav{width:calc(100% - 28px); padding:10px} header.main{flex-direction:column;align-items:flex-start;gap:12px} }
 
-  /* subtle motion */
   .float { animation: floaty 6s ease-in-out infinite; }
   @keyframes floaty { 0%{ transform: translateY(0px)} 50%{ transform: translateY(-6px)} 100%{ transform: translateY(0px)} }
 
@@ -99,15 +98,11 @@
   form button{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); border:none; color:white; padding:10px 12px; border-radius:10px; font-weight:700; margin-top:10px }
   a.small-link{ color:var(--accent-1); text-decoration:none; font-weight:700 }
 
-  /* ===========================
-     BLOB CURSOR STYLES (TUNED)
-     =========================== */
-
+  /* BLOB CURSOR STYLES (TUNED) */
   .custom-cursor { display:none; position:fixed; left:0; top:0; z-index:9999999; pointer-events:none; mix-blend-mode:normal; }
 
   body.has-custom-cursor .custom-cursor { display:block; }
 
-  /* hide native cursor globally when custom active (but not on inputs/links) */
   body.has-custom-cursor { cursor: none; }
   input, textarea, select, button, a { cursor: auto !important; }
 
@@ -325,17 +320,19 @@
   window.addEventListener('load', onScroll);
 })();
 
-/* FINAL: Tuned blob cursor init */
+/* FINAL: bulletproof blob cursor init */
 (function(){
   try {
+    // Only enable on fine-pointer + hover devices
     const fine = window.matchMedia('(pointer: fine)').matches;
-    const hover = window.matchMedia('(hover: hover)').matches;
-    if (!(fine && hover)) {
+    const hoverCap = window.matchMedia('(hover: hover)').matches;
+    if (!(fine && hoverCap)) {
       document.body.classList.remove('has-custom-cursor');
       console.log('Custom cursor disabled (no fine-pointer+hover).');
       return;
     }
 
+    // Ensure class & DOM
     document.body.classList.add('has-custom-cursor');
     let cursor = document.getElementById('customCursor');
     if (!cursor) {
@@ -350,79 +347,122 @@
       cursor.innerHTML = '<div class="blob-halo" id="cursorHalo"></div><div class="blob-core wobble" id="cursorDot"></div>';
       document.body.appendChild(cursor);
     }
-
+    const wrap = cursor;
     const dot = document.getElementById('cursorDot');
     const halo = document.getElementById('cursorHalo');
+
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function isInteractive(el){
       if (!el) return false;
-      const tag = el.tagName;
-      if (tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
-      return !!(el.closest && el.closest('a,button,input,textarea,select'));
+      const t = (el.tagName || '').toUpperCase();
+      if (['A','BUTTON','INPUT','TEXTAREA','SELECT','LABEL'].includes(t)) return true;
+      if (el.getAttribute) {
+        const role = el.getAttribute('role');
+        if (role === 'button' || role === 'link') return true;
+        if (el.hasAttribute('tabindex') && el.getAttribute('tabindex') !== '-1') return true;
+        if (el.getAttribute('onclick')) return true;
+      }
+      return !!(el.closest && el.closest('a,button,input,textarea,select,[role="button"],[role="link"],[tabindex]'));
     }
 
+    function setHover(on){
+      if (on) document.body.classList.add('cursor--hover');
+      else document.body.classList.remove('cursor--hover');
+    }
+
+    // position helpers
     let mx = window.innerWidth/2, my = window.innerHeight/2;
-    function setPos(x,y){
+    function setPosInstant(x,y){
       if (dot) dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%,-50%)`;
       if (halo) halo.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%,-50%)`;
     }
-    setPos(mx,my);
+    setPosInstant(mx,my);
 
-    let hovering = false;
-    function handleHover(target){
-      const newHover = isInteractive(target);
-      if (newHover !== hovering) {
-        hovering = newHover;
-        if (hovering) document.body.classList.add('cursor--hover');
-        else document.body.classList.remove('cursor--hover');
-      }
-    }
-
-    if (prefersReduced) {
-      window.addEventListener('pointermove', e=>{
-        mx = e.clientX; my = e.clientY;
-        setPos(mx,my);
-        handleHover(e.target);
-      }, {passive:true});
-      window.addEventListener('pointerleave', ()=> { cursor.style.opacity = 0; });
-      window.addEventListener('pointerenter', ()=> { cursor.style.opacity = 1; });
-      console.log('Blob cursor active (reduced-motion: instant follow).');
-      return;
-    }
-
-    let dotX = mx, dotY = my, haloX = mx, haloY = my;
-    const dotEase = 0.26, haloEase = 0.1; // slightly snappier
-
+    // Robust event wiring (works even when reduced-motion)
+    // pointermove: update coords + quick interactive check
     window.addEventListener('pointermove', e=>{
       mx = e.clientX; my = e.clientY;
-      handleHover(e.target);
+      if (prefersReduced) setPosInstant(mx,my);
+      setHover(isInteractive(e.target));
     }, {passive:true});
 
-    window.addEventListener('pointerleave', ()=> { cursor.style.opacity = 0; });
-    window.addEventListener('pointerenter', ()=> { cursor.style.opacity = 1; });
+    // pointerover / pointerout for immediate hover changes
+    window.addEventListener('pointerover', e=>{
+      setHover(isInteractive(e.target));
+    }, {passive:true});
+    window.addEventListener('pointerout', e=>{
+      const to = e.relatedTarget;
+      setHover(isInteractive(to));
+    }, {passive:true});
 
-    function lerp(a,b,t){ return a + (b-a)*t; }
-
-    function frame(){
-      dotX = lerp(dotX, mx, dotEase);
-      dotY = lerp(dotY, my, dotEase);
-      haloX = lerp(haloX, mx, haloEase);
-      haloY = lerp(haloY, my, haloEase);
-
-      if (dot) dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%,-50%)`;
-      if (halo) halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%,-50%)`;
-
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-
-    document.querySelectorAll('input, textarea, select, button, a').forEach(el=>{
-      el.addEventListener('mouseenter', ()=> document.body.classList.add('cursor--hover'));
-      el.addEventListener('mouseleave', ()=> document.body.classList.remove('cursor--hover'));
+    // keyboard focus handling
+    document.addEventListener('focusin', e=>{
+      setHover(isInteractive(e.target));
+    });
+    document.addEventListener('focusout', ()=>{
+      setTimeout(()=> setHover(isInteractive(document.activeElement)), 0);
     });
 
-    console.log('Blob cursor initialized (tuned).');
+    // tab navigation: check after Tab key
+    document.addEventListener('keydown', e=>{
+      if (e.key === 'Tab') setTimeout(()=> setHover(isInteractive(document.activeElement)), 0);
+    });
+
+    // attach direct handlers to current interactive elements for snappy response
+    function bindInteracts(root=document){
+      const els = root.querySelectorAll('a,button,input,textarea,select,[role="button"],[role="link"],[tabindex]');
+      els.forEach(el=>{
+        if (el.__cursorBound) return;
+        el.addEventListener('mouseenter', ()=> setHover(true));
+        el.addEventListener('mouseleave', ()=> setHover(false));
+        el.addEventListener('focus', ()=> setHover(true));
+        el.addEventListener('blur', ()=> setHover(false));
+        el.__cursorBound = true;
+      });
+    }
+    bindInteracts();
+
+    // mutation observer to catch dynamic elements
+    const mo = new MutationObserver(muts=>{
+      for (const m of muts){
+        if (m.addedNodes && m.addedNodes.length){
+          m.addedNodes.forEach(node=>{
+            if (node.nodeType === 1) bindInteracts(node);
+          });
+        }
+      }
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    // pointer enter/leave visibility
+    window.addEventListener('pointerenter', ()=> wrap.style.opacity = '1');
+    window.addEventListener('pointerleave', ()=> wrap.style.opacity = '0');
+
+    // follow behavior
+    if (prefersReduced) {
+      console.log('Blob cursor active (reduced-motion: instant follow).');
+    } else {
+      let dotX = mx, dotY = my, haloX = mx, haloY = my;
+      const dotEase = 0.26, haloEase = 0.1;
+      function lerp(a,b,t){ return a + (b-a)*t; }
+      function frame(){
+        dotX = lerp(dotX, mx, dotEase);
+        dotY = lerp(dotY, my, dotEase);
+        haloX = lerp(haloX, mx, haloEase);
+        haloY = lerp(haloY, my, haloEase);
+        if (dot) dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%,-50%)`;
+        if (halo) halo.style.transform = `translate3d(${haloX}px, ${haloY}px, 0) translate(-50%,-50%)`;
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+      console.log('Blob cursor initialized (eased follow).');
+    }
+
+    // ensure inputs show native cursor affordance
+    document.querySelectorAll('input,textarea,select,button,a').forEach(el=>{
+      el.style.cursor = 'auto';
+    });
 
   } catch (err) {
     console.error('Cursor init error', err);
