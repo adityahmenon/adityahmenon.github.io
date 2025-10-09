@@ -158,7 +158,18 @@
   .meta{color:var(--muted);font-size:13px;margin-top:4px}
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .chip{ background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04)); padding:6px 10px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; border:1px solid rgba(37,99,235,0.06) }
-  footer{ margin-top:28px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap }
+
+  /* === REPLACED FOOTER RULE: center inside content column === */
+  footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    color: var(--muted);
+    font-size: 13px;
+    gap: 8px;
+  }
 
   /* Cursor */
   .custom-cursor { display:none; position:fixed; left:0; top:0; z-index:9999999; pointer-events:none; mix-blend-mode:normal; opacity:1; transition:opacity .12s linear; }
@@ -309,17 +320,13 @@
         </div>
       </section>
 
-      footer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-  color: var(--muted);
-  font-size: 13px;
-  gap: 8px;
-}
     </main>
+
+    <!-- CORRECTED FOOTER HTML (centered inside content column) -->
+    <footer role="contentinfo">
+      <div>© <span id="year"></span> Aditya Menon</div>
+    </footer>
+
   </div>
 
   <!-- circular glowing cursor -->
