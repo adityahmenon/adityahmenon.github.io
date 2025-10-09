@@ -17,29 +17,26 @@
     --blob-core-size: 18px;
     --blob-halo: 60px;
     --blob-glow: 36px;
-
-    /* pill offset used to compute mobile menu top */
-    --pill-offset: 56px;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   html { scroll-behavior: smooth; }
-  section, main { scroll-margin-top: calc(var(--pill-offset) + 24px); }
+  section, main { scroll-margin-top: 110px; }
 
   body{
     font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     color:var(--text);
     background: linear-gradient(180deg,var(--page-bg), #eef4fb 60%);
     -webkit-font-smoothing:antialiased;
-    padding:calc(var(--pill-offset) + 54px) 16px 80px;
+    padding:110px 16px 80px;
   }
 
   .container{max-width:980px;margin:0 auto}
 
-  /* ===== iOS-style LIQUID GLASS NAV ===== */
+  /* ===== iOS-style LIQUID GLASS NAV (with micro-polish) ===== */
   .pill-wrap {
-    position: fixed; left: 0; right: 0; top: env(safe-area-inset-top,18px);
+    position: fixed; left: 0; right: 0; top: 18px;
     z-index: 120; display: flex; justify-content: center;
     pointer-events: none;
   }
@@ -51,10 +48,12 @@
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
     padding: 14px 20px;
     border-radius: 999px;
+
     background: rgba(255,255,255,0.20);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
     box-shadow: 0 12px 30px rgba(15,23,42,0.10), 0 4px 10px rgba(15,23,42,0.06);
+
     border: 1px solid transparent;
     transition: transform .28s ease, padding .28s ease, background-color .28s ease, box-shadow .28s ease, backdrop-filter .28s ease;
   }
@@ -75,7 +74,6 @@
     -webkit-mask-composite: xor;
             mask-composite: exclude;
     pointer-events: none;
-    transition: opacity .18s linear, transform .18s linear;
   }
   .pill-nav::after{
     content: "";
@@ -89,14 +87,7 @@
     background-size: cover, cover, 200px 200px;
     mix-blend-mode: screen;
     pointer-events: none;
-    transition: opacity .18s linear, transform .18s linear;
   }
-
-  /* shrink shadow when menu opens so it doesn't stack visually */
-  body.nav-open .pill-nav {
-    box-shadow: 0 6px 18px rgba(15,23,42,0.08);
-  }
-
   body.nav-compact .pill-nav{
     padding: 9px 14px;
     background: rgba(255,255,255,0.24);
@@ -105,12 +96,9 @@
     box-shadow: 0 8px 24px rgba(15,23,42,0.12), 0 2px 8px rgba(15,23,42,0.06);
     transform: translateY(-4px) scale(0.985);
   }
-
-  /* hide pill sheen while nav-open */
-  body.nav-open .pill-nav::before,
-  body.nav-open .pill-nav::after {
-    opacity: 0;
-    transform: scale(0.995);
+  @media (max-width:820px){
+    .pill-nav{ width: calc(100% - 28px); padding: 10px 12px; }
+    body.nav-compact .pill-nav{ padding: 8px 10px; transform: translateY(-2px) scale(0.995); }
   }
 
   /* Links */
@@ -125,14 +113,67 @@
     padding: 8px 12px;
     border-radius: 999px;
     font-weight: 600; font-size: 14px;
-    transition: color .18s ease, transform .18s ease;
+    transition: color .18s ease, transform .18s ease, background-color .18s ease, box-shadow .18s ease;
   }
   .pill-nav a:hover{
     color: var(--accent-2);
     transform: translateY(-2px);
   }
+  .pill-nav a.active{
+    background: linear-gradient(90deg, rgba(37,99,235,0.10), rgba(30,64,175,0.08));
+    color: var(--accent-1);
+    box-shadow: 0 8px 24px rgba(37,99,235,0.16);
+  }
 
-  /* Mobile: toggle, backdrop, and menu styles */
+  /* Cards */
+  .card {
+    margin-top:38px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding:22px;
+    border: 1px solid rgba(15,23,42,0.04);
+    box-shadow: 0 10px 30px rgba(15,23,42,0.04);
+    transition: all .28s ease;
+  }
+  .card:hover,
+  .experience:hover,
+  .project:hover,
+  .edu:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(37,99,235,0.14);
+    border-color: rgba(37,99,235,0.16);
+  }
+
+  header.main{display:flex;gap:18px;align-items:center}
+  .hero{flex:1}
+  .hero h1{font-size:28px;letter-spacing:-0.3px}
+  .lead{margin:8px 0 6px;color:var(--muted)}
+  .contact-line{margin:6px 0 14px;color:var(--muted);font-size:14px}
+  section{margin-top:22px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .project, .experience, .edu { padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(250,252,255,1), rgba(247,249,255,1)); border:1px solid rgba(15,23,42,0.03); transition:all .3s ease; }
+  h2.section-title{margin:0 0 10px;font-size:18px}
+  .muted{color:var(--muted);font-size:13px;margin-top:6px}
+  .role{font-weight:700;color:var(--text)}
+  .meta{color:var(--muted);font-size:13px;margin-top:4px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{ background:linear-gradient(180deg, rgba(37,99,235,0.06), rgba(30,64,175,0.04)); padding:6px 10px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; border:1px solid rgba(37,99,235,0.06) }
+
+  /* === REPLACED FOOTER RULE: center inside content column === */
+  footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    color: var(--muted);
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  /* =========================
+     Mobile Nav CSS (responsive switch)
+     ========================= */
   .mobile-toggle { display:none; border:0; background:transparent; color:var(--muted); width:44px; height:44px; align-items:center; justify-content:center; border-radius:10px; cursor:pointer; }
   .mobile-toggle svg { color:var(--muted); display:block; }
 
@@ -144,42 +185,40 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity .18s ease;
-    -webkit-tap-highlight-color: transparent;
   }
 
   .mobile-menu {
     position: fixed;
-    left: 18px;
-    right: 18px;
-    top: calc(env(safe-area-inset-top,18px) + var(--pill-offset) + 8px);
-    z-index: 145;
-    padding: 12px;
-    border-radius: 12px;
+    left: 12px;
+    right: 12px;
+    top: 82px;
+    z-index: 130;
+    padding: 16px;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     align-items: stretch;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    box-shadow: 0 10px 30px rgba(10,14,28,0.12);
-    transform: translateY(-6px) scale(0.995);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    box-shadow: 0 12px 28px rgba(10,14,28,0.18);
+    transform: translateY(-8px) scale(0.995);
     opacity: 0;
     pointer-events: none;
-    transition: transform .18s ease, opacity .18s ease;
-    max-height: calc(100vh - (env(safe-area-inset-top,18px) + var(--pill-offset) + 40px));
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    transition: transform .22s ease, opacity .22s ease;
   }
 
   .mobile-menu a {
     display: block;
     padding: 12px 14px;
     border-radius: 10px;
+    text-align: center;
     font-weight:700;
-    text-align:center;
     color: var(--text);
-    text-decoration:none;
+    text-decoration: none;
+    background: transparent;
+    transition: background .14s ease, color .14s ease;
   }
   .mobile-menu a:hover { background: rgba(37,99,235,0.06); color: var(--accent-1); }
 
@@ -198,37 +237,49 @@
     .pill-left .avatar { width:34px; height:34px; }
     .pill-left .brand-name { font-size:13px; }
     .pill-nav { padding: 10px 12px; width: calc(100% - 28px); }
-    body.nav-compact .mobile-menu { top: calc(env(safe-area-inset-top,18px) + 44px + 8px); }
+    body.nav-compact .mobile-menu { top: 64px; }
   }
 
-  /* Page content styles */
-  .card{margin-top:38px;background:var(--card-bg);border-radius:var(--radius);padding:22px;border:1px solid rgba(15,23,42,0.04);box-shadow:0 10px 30px rgba(15,23,42,0.04);transition:all .28s ease;}
-  .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(37,99,235,0.14);border-color:rgba(37,99,235,0.16);}
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  h2.section-title{margin:0 0 10px;font-size:18px}
-  footer{width:100%;display:flex;justify-content:center;align-items:center;padding:20px 0;color:var(--muted);font-size:13px;gap:8px;}
-
   /* Cursor */
-  .custom-cursor{display:none;position:fixed;left:0;top:0;z-index:9999999;pointer-events:none;mix-blend-mode:normal;opacity:1;transition:opacity .12s linear;}
-  body.has-custom-cursor .custom-cursor{display:block;}
-  body.has-custom-cursor{cursor:none;}
-  input,textarea,select,button,a{cursor:auto!important;}
-  .blob-core{width:var(--blob-core-size);height:var(--blob-core-size);background:radial-gradient(circle at 40% 40%,var(--accent-1),var(--accent-2));border-radius:50%;box-shadow:0 0 20px rgba(37,99,235,0.9);position:absolute;left:0;top:0;transform:translate(-50%,-50%) scale(1);}
-  .blob-halo{width:var(--blob-halo);height:var(--blob-halo);border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.18) 0%,rgba(37,99,235,0.08) 35%,rgba(37,99,235,0.02) 70%,transparent 100%);filter:blur(var(--blob-glow));position:absolute;left:0;top:0;transform:translate(-50%,-50%);opacity:0.9;}
+  .custom-cursor { display:none; position:fixed; left:0; top:0; z-index:9999999; pointer-events:none; mix-blend-mode:normal; opacity:1; transition:opacity .12s linear; }
+  body.has-custom-cursor .custom-cursor { display:block; }
+  body.has-custom-cursor { cursor: none; }
+  input, textarea, select, button, a { cursor: auto !important; }
+  .blob-core {
+    width: var(--blob-core-size);
+    height: var(--blob-core-size);
+    background: radial-gradient(circle at 40% 40%, var(--accent-1), var(--accent-2));
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(37,99,235,0.9);
+    position:absolute; left:0; top:0;
+    transform: translate(-50%,-50%) scale(1);
+  }
+  .blob-halo {
+    width: var(--blob-halo);
+    height: var(--blob-halo);
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.08) 35%, rgba(37,99,235,0.02) 70%, transparent 100%);
+    filter: blur(var(--blob-glow));
+    position:absolute; left:0; top:0;
+    transform: translate(-50%,-50%);
+    opacity:0.9;
+  }
 
   @media (max-width:980px){ .container{padding:0 12px} }
-  @media (max-width:820px){ .grid{grid-template-columns:1fr} header.main{flex-direction:column;align-items:flex-start;gap:12px} }
+  @media (max-width:820px){ .grid{grid-template-columns:1fr} .pill-nav{width:calc(100% - 28px); padding:10px} header.main{flex-direction:column;align-items:flex-start;gap:12px} }
 </style>
 </head>
 <body>
   <div class="pill-wrap">
+    <!-- UPDATED NAV: includes mobile toggle, backdrop and mobile menu -->
     <nav class="pill-nav" aria-label="Main Navigation">
       <div class="pill-left">
-        <div class="avatar" aria-hidden="true">AM</div>
+        <div class="avatar">AM</div>
         <div class="brand-name">Aditya Menon</div>
       </div>
 
-      <div class="nav-links" id="desktopNav">
+      <!-- Desktop nav links (hidden on small screens via CSS) -->
+      <div class="nav-links" id="desktopNav" aria-hidden="false">
         <a href="#top">Home</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
@@ -237,6 +288,7 @@
         <a href="#contact">Contact</a>
       </div>
 
+      <!-- Mobile toggle -->
       <button class="mobile-toggle" id="mobileToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
         <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <rect y="1" width="20" height="2" rx="1" fill="currentColor"/>
@@ -245,6 +297,7 @@
         </svg>
       </button>
 
+      <!-- Backdrop and mobile menu sit outside nav visually but kept here for scoping -->
       <div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
 
       <div id="mobileMenu" class="mobile-menu" role="menu" aria-hidden="true">
@@ -274,26 +327,26 @@
         <div class="grid">
           <article class="experience card">
             <div class="role">Bharat Petroleum Corporation Limited (BPCL)</div>
-            <div class="meta">Supply Chain Management Intern — Mumbai · June–July 2025</div>
+            <div class="meta">Supply Chain Management Intern - Mumbai · June–July 2025</div>
             <div class="muted">Deployed a SAP-linked Power BI dashboard cutting reporting time by 93%; eliminated packaging bottlenecks; identified demand trends for agile forecasting.</div>
           </article>
 
           <article class="experience card">
             <div class="role">Tech Mahindra Limited</div>
-            <div class="meta">AI & Automation Intern — Mumbai · May–June 2025</div>
+            <div class="meta">AI & Automation Intern - Mumbai · May–June 2025</div>
             <div class="muted">Built Python model for productivity tracking across 100K+ employees; created anomaly detection; discovered vulnerability in enterprise policy system.</div>
           </article>
 
           <article class="experience card">
             <div class="role">Mehtta Ventures (Dubai)</div>
-            <div class="meta">Research & Deal Sourcing Intern — Dec 2024–Mar 2025</div>
+            <div class="meta">Research & Deal Sourcing Intern · Dec 2024–Mar 2025</div>
             <div class="muted">Sourced venture deals across MENA; scouted investors for PressPlay Capital.</div>
           </article>
 
           <article class="experience card">
-            <div class="role">IEEE Communications Society — VIT Vellore</div>
+            <div class="role">IEEE Communications Society - VIT Vellore</div>
             <div class="meta">Vice-Chairperson · Jan 2024–Jan 2025</div>
-            <div class="muted">Led 370 members, won Best Chapter Award, scaled funds 7×, organized 37 events, and secured sponsorships.</div>
+            <div class="muted">Led 370 members, Won The Best Chapter Award, scaled funds 7×, organized 37 events, and secured sponsorships.</div>
           </article>
         </div>
       </section>
@@ -302,12 +355,12 @@
         <h2 class="section-title">Projects</h2>
         <div class="grid">
           <article class="project card">
-            <h3>Nokia Research — Network Analytics Dashboard</h3>
+            <h3>Nokia Research - Network Analytics Dashboard</h3>
             <div class="muted">Built a Power BI NMS dashboard to detect capacity trends across 600K+ nodes; proactive fault mitigation for 590M+ users.</div>
           </article>
 
           <article class="project card">
-            <h3>BPCL & Tech Mahindra — BI & Automation</h3>
+            <h3>BPCL & Tech Mahindra - BI & Automation</h3>
             <div class="muted">Delivered integrated Power BI and Python workflows to reduce manual reporting, flag anomalies and save costs and man hours.</div>
           </article>
         </div>
@@ -363,9 +416,11 @@
 
     </main>
 
+    <!-- CORRECTED FOOTER HTML (centered inside content column) -->
     <footer role="contentinfo">
       <div>© <span id="year"></span> Aditya Menon</div>
     </footer>
+
   </div>
 
   <!-- circular glowing cursor -->
@@ -375,70 +430,134 @@
   </div>
 
 <script>
-/* Scroll morph toggler */
+/* Scroll morph toggler: adds body.nav-compact after 80px (uses RAF) */
 (function(){
-  const threshold=80;let compact=false,ticking=false;
-  function onScroll(){const c=window.scrollY>threshold;if(c!==compact){compact=c;document.body.classList.toggle('nav-compact',c);}ticking=false;}
-  window.addEventListener('scroll',()=>{if(!ticking){window.requestAnimationFrame(onScroll);ticking=true;}},{passive:true});onScroll();
+  const threshold = 80;
+  let compact = false, ticking = false;
+  function onScroll(){
+    const shouldCompact = window.scrollY > threshold;
+    if (shouldCompact !== compact){
+      compact = shouldCompact;
+      document.body.classList.toggle('nav-compact', compact);
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){
+      window.requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, {passive:true});
+  // initial run
+  onScroll();
 })();
 </script>
 
 <script>
-/* Mobile nav behaviour */
+/* Mobile nav behaviour: open/close, backdrop, scroll lock, accessibility */
 (function(){
-  const toggle=document.getElementById('mobileToggle');
-  const menu=document.getElementById('mobileMenu');
-  const backdrop=document.getElementById('mobileBackdrop');
-  if(!toggle||!menu||!backdrop) return;
+  const toggle = document.getElementById('mobileToggle');
+  const menu = document.getElementById('mobileMenu');
+  const backdrop = document.getElementById('mobileBackdrop');
+
+  if (!toggle || !menu || !backdrop) return;
 
   function openMenu(){
     document.body.classList.add('nav-open');
     toggle.setAttribute('aria-expanded','true');
     menu.setAttribute('aria-hidden','false');
     backdrop.setAttribute('aria-hidden','false');
-    // lock scrolling on mobile safely
-    document.documentElement.style.overflow='hidden';
-    document.body.style.overflow='hidden';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    const first = menu.querySelector('a');
+    if(first) first.focus();
   }
+
   function closeMenu(){
     document.body.classList.remove('nav-open');
     toggle.setAttribute('aria-expanded','false');
     menu.setAttribute('aria-hidden','true');
     backdrop.setAttribute('aria-hidden','true');
-    document.documentElement.style.overflow='';
-    document.body.style.overflow='';
-    toggle.focus({preventScroll:true});
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    toggle.focus();
   }
 
-  toggle.addEventListener('click',()=>{document.body.classList.contains('nav-open')?closeMenu():openMenu();});
-  backdrop.addEventListener('click',closeMenu);
-  menu.addEventListener('click',e=>{ if(e.target && e.target.tagName==='A') closeMenu(); });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.body.classList.contains('nav-open')) closeMenu(); });
-  window.addEventListener('resize',()=>{ if(window.innerWidth>820 && document.body.classList.contains('nav-open')) closeMenu(); },{passive:true});
+  toggle.addEventListener('click', function(e){
+    const open = document.body.classList.contains('nav-open');
+    if(open) closeMenu(); else openMenu();
+  });
+
+  backdrop.addEventListener('click', closeMenu);
+
+  menu.addEventListener('click', function(e){
+    if(e.target && e.target.tagName === 'A') closeMenu();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && document.body.classList.contains('nav-open')) closeMenu();
+  });
+
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 820 && document.body.classList.contains('nav-open')) closeMenu();
+  }, {passive:true});
 })();
 </script>
 
 <script>
-/* glowing cursor */
+/* circular glowing cursor (simple follow) */
 (function(){
-  try{
-    const fine=window.matchMedia('(pointer: fine)').matches;
-    const hover=window.matchMedia('(hover: hover)').matches;
-    if(!(fine&&hover)) return;
+  try {
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const hover = window.matchMedia('(hover: hover)').matches;
+    if (!(fine && hover)) return;
     document.body.classList.add('has-custom-cursor');
-    const dot=document.getElementById('cursorDot');
-    const halo=document.getElementById('cursorHalo');
-    let mx=window.innerWidth/2,my=window.innerHeight/2,dotX=mx,dotY=my;
-    function setPos(x,y){ if(dot) dot.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`; if(halo) halo.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`; }
+
+    const dot = document.getElementById('cursorDot');
+    const halo = document.getElementById('cursorHalo');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let mx = window.innerWidth/2, my = window.innerHeight/2;
+    let dotX = mx, dotY = my, haloX = mx, haloY = my;
+
+    function setPos(x,y){
+      if (dot) dot.style.transform = `translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
+      if (halo) halo.style.transform = `translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
+    }
     setPos(mx,my);
-    window.addEventListener('pointermove',e=>{ mx=e.clientX; my=e.clientY; },{passive:true});
-    function lerp(a,b,t){return a + (b-a)*t;}
-    function frame(){ dotX=lerp(dotX,mx,0.22); dotY=lerp(dotY,my,0.22); setPos(dotX,dotY); requestAnimationFrame(frame); }
+
+    window.addEventListener('pointerenter', ()=> document.getElementById('customCursor').style.opacity='1');
+    window.addEventListener('pointerleave', ()=> document.getElementById('customCursor').style.opacity='0');
+
+    if (prefersReduced){
+      window.addEventListener('pointermove', e=> setPos(e.clientX, e.clientY), {passive:true});
+      return;
+    }
+
+    const dotEase = 0.22, haloEase = 0.1;
+    window.addEventListener('pointermove', e=>{
+      mx = e.clientX; my = e.clientY;
+    }, {passive:true});
+    function lerp(a,b,t){return a + (b - a) * t;}
+    function frame(){
+      dotX = lerp(dotX, mx, dotEase);
+      dotY = lerp(dotY, my, dotEase);
+      haloX = lerp(haloX, mx, haloEase);
+      haloY = lerp(haloY, my, haloEase);
+      setPos(dotX, dotY);
+      requestAnimationFrame(frame);
+    }
     requestAnimationFrame(frame);
-  }catch(err){ console.error(err); document.body.classList.remove('has-custom-cursor'); }
+  } catch (err) {
+    console.error('Cursor init error', err);
+    document.body.classList.remove('has-custom-cursor');
+  }
 })();
 </script>
 
-<script>document.getElementById('year').innerText=new Date().getFullYear();</script>
+<script>
+  // set year
+  document.getElementById('year').innerText = new Date().getFullYear();
+</script>
 </body>
 </html>
